@@ -1,0 +1,22 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="master.master.cs" Inherits="hww.master" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <link href="masterStyleSheet.css" rel="stylesheet" />
+    <title>Amit's site!</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body >
+<nav>
+    <a href="/Home.aspx/" >Home</a>
+    <a href="/Register.aspx/" >Register</a>
+    <a href="/Login.aspx/" >Login</a>
+    <a href="/User%20info.aspx/" >User info</a>
+</nav>
+<asp:ContentPlaceHolder ID="ContentPlaceholderBody" runat="server">
+</asp:ContentPlaceHolder>
+</body>
+</html>
