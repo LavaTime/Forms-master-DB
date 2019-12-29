@@ -4,65 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
 
-    <table id="userInfoTable">
-        <tr>
-            <th class="cell">
-                שם משתמש
-            </th>
-            <th class="cell">
-                סיסמה
-            </th>
-            <th class="cell">
-                שם פרטי
-            </th>
-            <th class="cell">
-                שם משפחה
-            </th>
-            <th class="cell">
-                כתובת אימייל
-            </th>
-            <th class="cell">
-                מספר טלפון
-            </th>
-            <th class="cell">
-                כתובת
-            </th>
-            <th class="cell">
-                מין
-            </th>
-            <th class="cell">
-                תאריך לידה
-            </th>
-        </tr>
-        <tr>
-            <td id="usernameData" class="cell">
-                שם משתמש לדוגמה
-            </td>
-            <td id="passwordData" class="cell">
-                סיסמה לדוגמה
-            </td>
-            <td class="cell">
-                שם פרטי לדוגמה
-            </td>
-            <td class="cell">
-                שם משפחה לדוגמה
-            </td>
-            <td class="cell">
-                כתובת אימייל לדוגמה
-            </td>
-            <td class="cell">
-                מספר טלפון לדוגמה
-            </td>
-            <td class="cell">
-                כתובת לדוגמה
-            </td>
-            <td class="cell">
-                מין לדוגמה
-            </td>
-            <td class="cell">
-                תאריך לידה לדוגמה
-            </td>
-        </tr>
-    </table>
+    <%=table %>
+
+    <!--- <table id="userInfoTable"><tr><th class="cell">שם משתמש</th><th class="cell">סיסמה</th><th class="cell">שם פרטי</th><th class="cell">שם משפחה</th><th class="cell">כתובת אימייל</th><th class="cell">מספר טלפון</th><th class="cell">כתובת</th><th class="cell">מין</th><th class="cell">תאריך לידה</th></tr><tr><td class="cell">{0}</td><td class="cell">{1</td><td class="cell">{2}</td><td class="cell">{3}</td><td class="cell">{4}</td><td class="cell">{5}</td><td class="cell">{6}</td><td class="cell">{7}</td><td class="cell">{8}</td></tr></table> --->
 
 </asp:Content>

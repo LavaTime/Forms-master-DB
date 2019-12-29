@@ -4,8 +4,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
 
-    <form id="loginForm">
-        <!--- remember to use method and action --->
+    <form id="loginForm" action="Login.aspx" method="POST">
         <table>
             <tr>
                 <td>
@@ -38,7 +37,7 @@
             <tr>
                 <td>
                     <!--- add function for onclick validating all of the fields above --->
-                    <input type="submit" id="sumbit" onclick="return checkAll();" value="התחבר" />
+                    <input type="submit" id="submitLogin" name="submitLogin" onclick="return checkAll();" value="התחבר" />
                 </td>
             </tr>
         </table>

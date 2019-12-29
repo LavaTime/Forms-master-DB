@@ -13,12 +13,13 @@ namespace hww
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Form["submit"] != null)
+            if (Request.Form["submitLogin"] != null)
             {
                 // pull the username and passwords from the form
                 string username = Request.Form["username"];
                 string password = Request.Form["password"];
                 // check to see if the username exists
+
                 if (IsCorrect(username, password))
                 {
                     Session["usernameData"] = username;

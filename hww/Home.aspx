@@ -4,5 +4,5 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
-
+    <h2>Home page of Amit Keren's site</h2>
 </asp:Content>
