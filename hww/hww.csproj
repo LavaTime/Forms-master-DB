@@ -67,15 +67,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="checkFormScript.js" />
+    <Content Include="App_Data\mainDB.mdf" />
+    <Content Include="App_Data\mainDB_log.ldf">
+      <DependentUpon>mainDB.mdf</DependentUpon>
+    </Content>
+    <Content Include="checkRegisScript.js" />
+    <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="masterStyleSheet.css" />
     <Content Include="Register.aspx" />
+    <Content Include="SQLQuery.sql" />
     <Content Include="User info.aspx" />
+    <Content Include="UserInfoStyleSheet.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorPage.aspx.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.designer.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

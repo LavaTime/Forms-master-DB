@@ -7,7 +7,7 @@ function checkAll() {
     if there are errors then return false and not refresh the page
     */
     // add the email phone and address checks
-    var validation = [checkUsername(), checkPassword(), checkFirstName(), checkLastName(), checkBirthdate(), checkEmail(), checkPhone(), checkAddress()];
+    var validation = [checkUsername(), checkPassword(), checkFirstName(), checkLastName(), checkBirthdate(), checkEmail(), checkPhone()];
 
     for (var i = 0; i < validation.length; i++) {
         if (!validation[i]) {
@@ -59,7 +59,7 @@ function checkPassword() {
             return false;
         }
         // check if the current letter is capitale or not, and then if there is a capital and a non-capitale then return True for both of the variables
-        if (password[i] == passsword.toUpperCase())
+        if (password[i] == password.toUpperCase())
             includesCapital = true;
         if (password[i] == passsword.toLowerCase())
             includesLower = true;
@@ -149,7 +149,7 @@ function checkEmail() {
 
 function checkPhone() {
     var phone = document.getElementById("phone").value;
-    if (phone.length == 10) {
+    if (phone.length == 10 || phone.length == 0) {
         document.getElementById("errPhone").innerHTML = "";
         return true;
     } else {
@@ -157,19 +157,6 @@ function checkPhone() {
         return false;
     }
 }
-
-function checkAddress() {
-    var address = document.getElementById("address").value;
-    if (address == "") {
-        document.getElementById("errAddress").innerHTML = "אנא הכנס כתובת";
-        return false;
-    }
-    document.getElementById("errAddress").innerHTML = ""
-    return true;
-
-}
-
-
 
 function otherGender() {
     /*

@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
-            <form>
+            <form action="Register.aspx" method="POST">
         <table>
             <tr>
                 <td>שם משתמש</td>
@@ -32,12 +32,12 @@
             <tr>
 
                 <td>טלפון</td>
-                <td><input type="tel" id="phone" name="phone" required autocomplete="on" onchange="checkPhone()"/></td>  <!--- add onchange check phone --->
+                <td><input type="tel" id="phone" name="phone" autocomplete="on" onchange="checkPhone()"/></td>  <!--- add onchange check phone --->
                 <td><p id="errPhone" class="err"></p></td>
             </tr>
             <tr>
                 <td>כתובת</td>
-                <td><input type="text" id="address" name="address" required autocomplete="on" onchange="checkAddress()"/></td> <!--- add onchange check address --->
+                <td><input type="text" id="address" name="address" autocomplete="on" /></td> <!--- add onchange check address --->
                 <td><p id="errAddress" class="err"></p></td>
             </tr>
             <tr>
@@ -69,10 +69,10 @@
             </tr>
             <tr>
                 <td>
-                    <button type="submit" onclick="return checkAll();">רשום</button>
+                    <input type="submit" id="Submit" name="Submit" onclick="return checkAll();" value="רשום" />
                 </td>
             </tr>
         </table>
     </form>
-    <script type="text/javascript" src="checkFormScript.js"></script>
+    <script type="text/javascript" src="checkRegisScript.js"></script>
 </asp:Content>
