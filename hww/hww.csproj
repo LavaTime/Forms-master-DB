@@ -71,6 +71,7 @@
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
+    <Content Include="checkLoginScript.js" />
     <Content Include="checkRegisScript.js" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />

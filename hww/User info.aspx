@@ -35,10 +35,10 @@
             </th>
         </tr>
         <tr>
-            <td class="cell">
+            <td id="usernameData" class="cell">
                 שם משתמש לדוגמה
             </td>
-            <td class="cell">
+            <td id="passwordData" class="cell">
                 סיסמה לדוגמה
             </td>
             <td class="cell">

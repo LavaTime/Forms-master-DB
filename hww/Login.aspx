@@ -13,7 +13,7 @@
                 </td>
                 <td>
                     <!--- add client-side checking script for the username validation --->
-                    <input type="text" id="username" name="username" required autocomplete="on" />
+                    <input type="text" id="username" name="username" onchange="checkUsername();" required autocomplete="on" />
                 </td>
                 <td>
                     <p id="errUsername" class="err" style="color: red;">
@@ -27,7 +27,7 @@
                 </td>
                 <td>
                     <!--- add client-side checking script for the password validation --->
-                    <input type="password" id="password" name="password" required autocomplete="on" />
+                    <input type="password" id="password" name="password" onchange="checkPassword();" required autocomplete="on" />
                 </td>
                 <td>
                     <p id="errPassword" class="err" style="color: red;">
@@ -38,10 +38,11 @@
             <tr>
                 <td>
                     <!--- add function for onclick validating all of the fields above --->
-                    <input type="submit" id="sumbit" value="התחבר" />
+                    <input type="submit" id="sumbit" onclick="return checkAll();" value="התחבר" />
                 </td>
             </tr>
         </table>
     </form>
+    <script src="checkLoginScript.js" type="text/javascript" ></script>
 
 </asp:Content>
