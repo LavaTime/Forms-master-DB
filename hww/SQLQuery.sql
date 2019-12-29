@@ -1,4 +1,4 @@
-﻿ DROP TABLE users;
+﻿DROP TABLE users;
 CREATE TABLE users (
 	username NVARCHAR(16) PRIMARY KEY NOT NULL,
 	userPassword NVARCHAR(16) NOT NULL,
