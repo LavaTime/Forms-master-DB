@@ -14,10 +14,10 @@ namespace hww
         protected string table = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["usernameData"].ToString() == "guest")
+            if (Session["usernameData"] == null)
             {
                 //Run default text
-                Console.WriteLine("not logged in");
+                Response.Redirect("../ErrorPage.aspx");
             }
 
             // add an if to check for Session Admin
@@ -44,7 +44,7 @@ namespace hww
             string Rdob = Data.Tables[0].Rows[0]["dob"].ToString();
             string Rage = (string) Data.Tables[0].Rows[0]["age"].ToString();
             SqlConn.Close();
-            table = string.Format("<table id = \"userInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr><tr><td class=\"cell\">{0}</td><td class=\"cell\">{1}</td><td class=\"cell\">{2}</td><td class=\"cell\">{3}</td><td class=\"cell\">{4}</td><td class=\"cell\">{5}</td><td class=\"cell\">{6}</td><td class=\"cell\">{7}</td><td class=\"cell\">{8}</td></tr></table>", Rusername, Rpassword, RfirstName, RlastName, Remail, Rphone, Raddress, RGender, Rdob, Rage);
+            table = string.Format("<table cellpadding = \"5\" id = \"userInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr><tr><td class=\"cell\">{0}</td><td class=\"cell\">{1}</td><td class=\"cell\">{2}</td><td class=\"cell\">{3}</td><td class=\"cell\">{4}</td><td class=\"cell\">{5}</td><td class=\"cell\">{6}</td><td class=\"cell\">{7}</td><td class=\"cell\">{8}</td></tr></table>", Rusername, Rpassword, RfirstName, RlastName, Remail, Rphone, Raddress, RGender, Rdob, Rage);
 
         }
     }

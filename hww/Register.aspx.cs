@@ -23,9 +23,7 @@ namespace hww
                 string email = Request.Form["email"];
                 string phoneNum = Request.Form["phone"];
                 string address = Request.Form["address"];
-                
-                //if (male.checked || )
-                string gender = "male";
+                string gender = Request.Form["gender"];
                 string dob = Request.Form["birthdate"];
                 string age = Request.Form["ageInput"];
 
@@ -56,7 +54,7 @@ namespace hww
                 connectionObj.Close();
                 if (rowsAffected == 1)
                 {
-                    Response.Redirect("Login.aspx");
+                    Response.Redirect("../Login.aspx");
                 }
             }
         }

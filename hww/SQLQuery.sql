@@ -14,7 +14,7 @@ CREATE TABLE users (
 /*
 INSERT INTO users (username, userPassword, firstName, lastName, email, phoneNum, homeAddress, Gender, dob, age)
 VALUES ('superSavta', '1234567', 'Michal', 'Kliener', 'michalKlineer@gmail.com', 0546533580, 'עודד', 'נקבה', '1936-04-01', 84) */
- */
+*/
 SELECT * FROM users;
 
 

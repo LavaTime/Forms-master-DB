@@ -267,11 +267,11 @@ function updateAge() {
                     <label for="male">זכר</label>
                      <input type="radio" id="female" name="gender" value="female" onchange="otherGender();"/>
                     <label for="female">נקבה</label>
-                    <input type="radio" id="other" name="gender" value="other" onchange="otherGender();"/>
+                    <input type="radio" id="other" name="othergender" value="other" onchange="otherGender();"/>
                     <label for="other">אחר</label>
                 </td>
                 <td>
-                    <input type="text" id="notListedGender" name="notListedGender" autocomplete="on" style="visibility: hidden;" placeholder="הכניסו את המין שלכם"/>
+                    <input type="text" id="notListedGender" name="gender" autocomplete="on" style="visibility: hidden;" placeholder="הכניסו את המין שלכם"/>
                 </td>
                 <td>
                     <p id="errGender" class="err"></p>

@@ -80,6 +80,7 @@
     <Content Include="Register.aspx" />
     <Content Include="SQLQuery.sql" />
     <Content Include="User info.aspx" />
+    <Content Include="UserInfoStyle.css" />
     <Content Include="UserInfoStyleSheet.css" />
     <Content Include="Web.config" />
   </ItemGroup>
