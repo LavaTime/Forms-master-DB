@@ -11,10 +11,10 @@
 </head>
 <body >
 <nav>
-    <a href="/Home.aspx/" >Home</a>
-    <a href="/Register.aspx/" >Register</a>
-    <a href="/Login.aspx/" >Login</a>
-    <a href="/User%20info.aspx/" >User info</a>
+    <a href="Home.aspx" class="navMenu" >Home</a>
+    <a href="Register.aspx" class="navMenu">Register</a>
+    <a href="Login.aspx" class="navMenu">Login</a>
+    <a href="User%20info.aspx" class="navMenu">User info</a>
 </nav>
 <asp:ContentPlaceHolder ID="ContentPlaceholderBody" runat="server">
 </asp:ContentPlaceHolder>

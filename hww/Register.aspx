@@ -64,14 +64,14 @@ function checkPassword() {
             return false;
         }
         // check if the current letter is capitale or not, and then if there is a capital and a non-capitale then return True for both of the variables
-        if (password[i] == password.toUpperCase())
+        if (password[i] == password[i].toUpperCase())
             includesCapital = true;
-        if (password[i] == passsword.toLowerCase())
+        if (password[i] == password[i].toLowerCase())
             includesLower = true;
     }
     if (!includesCapital && !includesLower) {
         // Check too see if both of the Bool var are true (meaing there are atleast 1 capitale and 1 non-capitale)
-        document.getElementById("e rrPassword").innerHTML = "הסיסמה לא מכילה לפחות אות אחת גדולה ואות אחת קטנה";
+        document.getElementById("errPassword").innerHTML = "הסיסמה לא מכילה לפחות אות אחת גדולה ואות אחת קטנה";
         return false;
     }
     document.getElementById("errPassword").innerHTML = "";
@@ -206,6 +206,15 @@ function updateAge() {
     var timeAlive = timeSinceEpoch - birthDate;
     var timeAliveConverted = new Date(timeAlive);
     var age = Math.abs(timeAliveConverted.getUTCFullYear() - 1970)
+    if (birthDate.getMonth > timeSinceEpoch.getMonth)
+    {
+        age--;
+    } else if (birthDate.getMonth == timeSinceEpoch.getMonth)
+    {
+        if (birthDate.getDate < timeSinceEpoch.getDate) {
+            age--;
+        }
+    }
     document.getElementById("ageInput").value = age;
 }
 
@@ -267,7 +276,7 @@ function updateAge() {
                     <label for="male">זכר</label>
                      <input type="radio" id="female" name="gender" value="female" onchange="otherGender();"/>
                     <label for="female">נקבה</label>
-                    <input type="radio" id="other" name="othergender" value="other" onchange="otherGender();"/>
+                    <input type="radio" id="other" name="gender" value="other" onchange="otherGender();"/>
                     <label for="other">אחר</label>
                 </td>
                 <td>
@@ -285,11 +294,15 @@ function updateAge() {
 
             <tr>
                 <td>גיל</td>
-                <td><input type="number" value="" id="ageInput" readonly/></td>
+                <td><input type="number" value="" name="ageInput" id="ageInput" readonly/></td>
             </tr>
             <tr>
                 <td>
                     <input type="submit" id="Submit" name="Submit" onclick="return checkAll();" value="רשום" />
+                </td>
+            </tr>
+            <tr>
+                <td>
                 </td>
             </tr>
         </table>

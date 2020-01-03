@@ -1,8 +1,15 @@
 ﻿body {
     direction: rtl;
+    background-color: rgb(57, 169, 219);
 }
 
 .err {
     color: red;
     font-weight: 600;
+}
+
+.navMenu {
+    list-style-type: none;
+    margin: 0;
+    padding: 550px;
 }

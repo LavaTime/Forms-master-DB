@@ -31,13 +31,13 @@ namespace hww
                 {
                     if (!isEmailUnique(email))
                     {
-                        //return an err to the user
-                        Console.WriteLine("Email isn't unique");
+                        Session["CsErr"] = "Email isn't unique!";
+                        Response.Redirect("../ErrorPage.aspx");
                     }
                     if (!isUsernameUnique(username))
                     {
-                        Console.WriteLine("username isn't unique");
-                        //return err to the user
+                        Session["CsErr"] = "The username isn't unique";
+                        Response.Redirect("../ErrorPage.aspx");
                     }
                 }
                 // Connection string taken from the server explorer

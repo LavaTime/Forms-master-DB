@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+// imports
 using System.Data;
 using System.Data.SqlClient;
 
@@ -24,12 +25,12 @@ namespace hww
                 {
                     Session["usernameData"] = username;
                     Session["passwordData"] = password;
-                    Response.Redirect("User%20info.aspx");
+                    Response.Redirect("../User%20info.aspx");
                 }
                 else
                 {
-                    Session["errData"] = "ERROR 401\nerror in loginning, please try again";
-                    Response.Redirect("ErrorPage.aspx");
+                    Session["CsErr"] = "ERROR 401 error in loginning, please try again";
+                    Response.Redirect("../ErrorPage.aspx");
                 }
                 
             }

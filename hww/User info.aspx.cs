@@ -16,7 +16,7 @@ namespace hww
         {
             if (Session["usernameData"] == null)
             {
-                //Run default text
+                Session["CsErr"] = "Err 404 user not found!";
                 Response.Redirect("../ErrorPage.aspx");
             }
 
