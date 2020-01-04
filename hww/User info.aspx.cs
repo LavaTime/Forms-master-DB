@@ -16,7 +16,7 @@ namespace hww
         {
             if (Session["usernameData"] == null)
             {
-                Session["CsErr"] = "שגיאה 401 שם המשתמש לא נמצא";
+                Session["CsErr"] = "שגיאה 404 אנא הכנס פרטי משתמש";
                 Response.Redirect("ErrorPage.aspx");
             }
 
@@ -39,6 +39,8 @@ namespace hww
             string RlastName = (string) Data.Tables[0].Rows[0]["lastName"];
             string Remail = (string) Data.Tables[0].Rows[0]["email"];
             string Rphone = Data.Tables[0].Rows[0]["phoneNum"].ToString();
+            if (Rphone == "0")
+                Rphone = "";
             string Raddress = (string) Data.Tables[0].Rows[0]["homeAddress"];
             string RGender = (string) Data.Tables[0].Rows[0]["Gender"];
             string Rdob = Data.Tables[0].Rows[0]["dob"].ToString();

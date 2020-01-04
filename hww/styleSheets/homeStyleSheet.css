@@ -1,13 +1,13 @@
 ﻿#title {
     font-family: 'Comic Sans MS';
     color: white;
-    position: fixed;
+    position: absolute;
     right: 35%;
     font-size: 35px;
 }
 
 .introduction {
-    font-size: 20px;
+    font-size: 25px;
     color: white;
 }
 
@@ -21,4 +21,21 @@
 
 #login {
     background-color: #121212;
+}
+
+nav {
+    position: absolute;
+    top: 20px;
+
+}
+
+.catGif {
+    image-resolution: 10dpi;
+    padding: 10px 10px 10px 10px;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
 }

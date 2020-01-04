@@ -33,12 +33,20 @@ li a:hover {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-img {
+img #logo {
     max-width: 10%;
     max-height: 10%;
     left: 0px;
     float: left;
     position:fixed
+}
+
+#logo {
+    max-width: 10%;
+    max-height: 10%;
+    left: 0px;
+    float: left;
+    position: fixed
 }
 
 .navMenu {

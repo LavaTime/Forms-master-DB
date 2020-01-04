@@ -2,14 +2,15 @@
     background-color: #121212;
 }
 
-#regis {
-    background-color: #121212;
+#loginForm {
+    background-color: #585858;
 }
 
 #login {
-    background-color: #585858;
+    background-color: #121212;
 }
 
 td {
     color: white;
+    font-size: 20px;
 }

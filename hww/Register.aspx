@@ -194,7 +194,7 @@ function checkBirthdate() {
 
 
 
-// ADD THE UPDATE AGE TESTING FOR THE MONTHS AND DATES
+// ADD THE UPDATE AGE TESTING FOR THE MONTHS AND DATES FIXED
 
 function updateAge() {
     /*
@@ -219,20 +219,8 @@ function updateAge() {
     document.getElementById("ageInput").value = age;
 }
 
-
-
-
-
-
-/*
- * 
- * 
- * ADD A CUSTOM FIELD FOR THE UNIVERSAL CODE FOR THE TELEPHONE
- * 
- * 
- *  */
     </script>
-            <form action="Register.aspx" method="POST">
+            <form id="regis" action="Register.aspx" method="POST">
         <table>
             <tr>
                 <td>שם משתמש</td>
@@ -273,11 +261,11 @@ function updateAge() {
             <tr>
                 <td>מין</td>
                 <td>
-                    <input type="radio" id="male" name="gender" value="male" onchange="otherGender();"/>
+                    <input type="radio" id="male" name="gender" value="זכר" onchange="otherGender();"/>
                     <label for="male">זכר</label>
-                     <input type="radio" id="female" name="gender" value="female" onchange="otherGender();"/>
+                     <input type="radio" id="female" name="gender" value="נקבה" onchange="otherGender();"/>
                     <label for="female">נקבה</label>
-                    <input type="radio" id="other" name="gender" value="other" onchange="otherGender();"/>
+                    <input type="radio" id="other" name="gender" value="אחר" onchange="otherGender();"/>
                     <label for="other">אחר</label>
                 </td>
                 <td>

@@ -11,9 +11,9 @@
 </head>
 <body >
     <header>
-        <img src="https://clipart4biz.com/images/css-transparent-css3-4.png" alt="logo" draggable="false"/>
+        <img id="logo" src="https://clipart4biz.com/images/css-transparent-css3-4.png" alt="logo" draggable="false"/>
         <nav>
-            <ul>
+            <ul id="navbar">
                 <li><a id="home" href="Home.aspx" class="navMenu" >בית</a></li>
                 <li><a id="regis" href="Register.aspx" class="navMenu">הרשמה</a></li>
                 <li><a id="login" href="Login.aspx" class="navMenu">התחברות</a></li>
