@@ -22,7 +22,7 @@
     <p class="introduction">כאן אתם יכולים ליצור משתמש</p>
     <p class="introduction">בשביל ליצור משתמש לחצו בצד ימין למעלה על הרשמה</p>
     <p class="introduction">בשביל להתחבר אם יש לכם משתמש לחצו בצד ימין למעלה על התחברות</p>
-    <p class="introduction">בשביל לראות את פרטי המשתמש שהמערכת שמרה התחברות</p>
+    <p class="introduction">בשביל לראות את פרטי המשתמש שהמערכת שמרה התחברו</p>
     <p class="introduction">בשביל לחזור לעמוד הזה ממש לחצו על בית בצד ימין למעלה בכל אחד מדפי האתר</p>
     <p class="introduction">בנתיים תוכלו להנות מהתפריט הזה ומגיפים חמודים של חתולים מתוקים </p>
     <img class="catGif" src="https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.gif" />
