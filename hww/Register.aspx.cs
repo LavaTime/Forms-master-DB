@@ -31,13 +31,13 @@ namespace hww
                 {
                     if (!isEmailUnique(email))
                     {
-                        Session["CsErr"] = "Email isn't unique!";
-                        Response.Redirect("../ErrorPage.aspx");
+                        Session["CsErr"] = "כתובת האימייל קיימת כבר במערכת";
+                        Response.Redirect("/ErrorPage.aspx");
                     }
                     if (!isUsernameUnique(username))
                     {
-                        Session["CsErr"] = "The username isn't unique";
-                        Response.Redirect("../ErrorPage.aspx");
+                        Session["CsErr"] = "שם המשתמש קיים כבר במערכת";
+                        Response.Redirect("/ErrorPage.aspx");
                     }
                 }
                 // Connection string taken from the server explorer
@@ -54,7 +54,7 @@ namespace hww
                 connectionObj.Close();
                 if (rowsAffected == 1)
                 {
-                    Response.Redirect("../Login.aspx");
+                    Response.Redirect("/Login.aspx");
                 }
             }
         }

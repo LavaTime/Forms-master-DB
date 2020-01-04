@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/master.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="hww.Register" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="styleSheets/regiStyleSheet.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
     <script type="text/javascript">

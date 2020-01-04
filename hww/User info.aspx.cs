@@ -16,8 +16,8 @@ namespace hww
         {
             if (Session["usernameData"] == null)
             {
-                Session["CsErr"] = "Err 404 user not found!";
-                Response.Redirect("../ErrorPage.aspx");
+                Session["CsErr"] = "שגיאה 401 שם המשתמש לא נמצא";
+                Response.Redirect("ErrorPage.aspx");
             }
 
             // add an if to check for Session Admin

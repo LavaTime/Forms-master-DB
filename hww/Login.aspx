@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/master.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="hww.Login" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="styleSheets/loginStyleSheet.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
@@ -11,7 +12,7 @@
                     שם משתמש
                 </td>
                 <td>
-                    <!--- add client-side checking script for the username validation --->
+                    <!--- add client-side checking script for the username validation FIXED --->
                     <input type="text" id="username" name="username" onchange="checkUsername();" required autocomplete="on" />
                 </td>
                 <td>
@@ -25,7 +26,7 @@
                     סיסמה
                 </td>
                 <td>
-                    <!--- add client-side checking script for the password validation --->
+                    <!--- add client-side checking script for the password validation FIXED--->
                     <input type="password" id="password" name="password" onchange="checkPassword();" required autocomplete="on" />
                 </td>
                 <td>
@@ -36,7 +37,7 @@
             </tr>
             <tr>
                 <td>
-                    <!--- add function for onclick validating all of the fields above --->
+                    <!--- add function for onclick validating all of the fields above FIXED--->
                     <input type="submit" id="submitLogin" name="submitLogin" onclick="return checkAll();" value="התחבר" />
                 </td>
             </tr>

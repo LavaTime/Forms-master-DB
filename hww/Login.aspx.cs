@@ -25,12 +25,12 @@ namespace hww
                 {
                     Session["usernameData"] = username;
                     Session["passwordData"] = password;
-                    Response.Redirect("../User%20info.aspx");
+                    Response.Redirect("/User%20info.aspx");
                 }
                 else
                 {
-                    Session["CsErr"] = "ERROR 401 error in loginning, please try again";
-                    Response.Redirect("../ErrorPage.aspx");
+                    Session["CsErr"] = "שגיאה 401 המשתמש לא נמצא או שסיסמא לא נכונה";
+                    Response.Redirect("/ErrorPage.aspx");
                 }
                 
             }
