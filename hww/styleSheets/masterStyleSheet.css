@@ -63,3 +63,9 @@ form {
     top: 12%;
     position: fixed;
 }
+
+#userInfoForm {
+    right: unset;
+    top: unset;
+    position: initial;
+}

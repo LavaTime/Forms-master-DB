@@ -20,9 +20,16 @@ namespace hww
                 string username = Request.Form["username"];
                 string password = Request.Form["password"];
                 // check to see if the username exists
-
-                if (IsCorrect(username, password))
+                if (IsAdmin(username, password))
                 {
+                    Session["usernameData"] = username;
+                    Session["passwordData"] = password;
+                    Session["isAdmin"] = true;
+                    Response.Redirect("/User%20info.aspx");
+                }
+                else if (IsCorrect(username, password))
+                {
+                    Session["isAdmin"] = false;
                     Session["usernameData"] = username;
                     Session["passwordData"] = password;
                     Response.Redirect("/User%20info.aspx");
@@ -64,6 +71,21 @@ namespace hww
             SQLConn.Close();
             // return the result
             return correct;
+        }
+
+        public bool IsAdmin(string username, string pass)
+        {
+            bool isAdmin = false;
+            DataSet xmlDs = new DataSet();
+            xmlDs.ReadXml(System.Web.HttpContext.Current.Server.MapPath("adminTable.xml"));
+            foreach (DataRow row in xmlDs.Tables[0].Rows)
+            {
+                if (username.Equals(row[0]) && pass.Equals(row[1]))
+                {
+                    isAdmin = true;
+                }
+            }
+            return isAdmin;
         }
     }
 }

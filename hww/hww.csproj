@@ -67,12 +67,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="adminTable.xml" />
     <Content Include="App_Data\mainDB.mdf" />
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
     <Content Include="checkLoginScript.js" />
     <Content Include="checkRegisScript.js" />
+    <Content Include="EditUserData.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="styleSheets\homeStyleSheet.css" />
@@ -82,11 +84,19 @@
     <Content Include="Register.aspx" />
     <Content Include="SQLQuery.sql" />
     <Content Include="styleSheets\regiStyleSheet.css" />
+    <Content Include="styleSheets\updateInfoStyleSheet.css" />
     <Content Include="User info.aspx" />
     <Content Include="styleSheets\UserInfoStyleSheet.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditUserData.aspx.cs">
+      <DependentUpon>EditUserData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditUserData.aspx.designer.cs">
+      <DependentUpon>EditUserData.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

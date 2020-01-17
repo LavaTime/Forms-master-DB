@@ -20,3 +20,17 @@ td {
 th {
     color: white;
 }
+
+.buttons {
+    top: 130px;
+    right: 50%; /*Been used only for checking, overriden by more specific selector*/
+    position: absolute;
+}
+
+#updateInfoB {
+    right: 10%;
+}
+
+#removeInfoB {
+    right: 16%;
+}
