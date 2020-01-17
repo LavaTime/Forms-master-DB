@@ -248,7 +248,6 @@ function loadAll() {
 
 function loadDate() {
     var splitted = "<%= Rdob%>".split("/");
-    window.alert(splitted);
     var Rmonth = splitted[0];
     if (Rmonth.length == 1) {
         Rmonth = "0" + Rmonth;
@@ -264,7 +263,7 @@ function loadDate() {
 
 window.onload = function () {loadAll()};
     </script>
-            <form id="regisF" action="Register.aspx" method="POST">
+            <form id="editF" action="EditUserData.aspx" method="POST">
         <table>
             <tr>
                 <td>שם משתמש</td>

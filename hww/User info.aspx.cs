@@ -13,6 +13,7 @@ namespace hww
     public partial class User_info : System.Web.UI.Page
     {
         protected string table = "";
+        protected string button = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["usernameData"] == null)
@@ -22,6 +23,7 @@ namespace hww
             }
             if (Session["isAdmin"].ToString() == "True")
             {
+                button = "<form action=\"showAllUsers.aspx\" method=\"get\"><input type=\"submit\" value=\"פרטי כל המשתמשים\" name=\"Submit\" id=\"frm1_submit\" /></form >";
                 DataSet Data = new DataSet();
                 Data.ReadXml(MapPath("adminTable.xml"));
                 // thought about using a for loop as showen in DbExample but
@@ -31,18 +33,18 @@ namespace hww
                 {
                     if (row["username"].ToString() == Session["usernameData"].ToString())
                     {
-                        string Rusername = (string)Data.Tables[0].Rows[0]["username"];
-                        string Rpassword = (string)Data.Tables[0].Rows[0]["userPassword"];
-                        string RfirstName = (string)Data.Tables[0].Rows[0]["firstName"];
-                        string RlastName = (string)Data.Tables[0].Rows[0]["lastName"];
-                        string Remail = (string)Data.Tables[0].Rows[0]["email"];
-                        string Rphone = Data.Tables[0].Rows[0]["phoneNum"].ToString();
+                        string Rusername = (string)row["username"];
+                        string Rpassword = (string)row["userPassword"];
+                        string RfirstName = (string)row["firstName"];
+                        string RlastName = (string)row["lastName"];
+                        string Remail = (string)row["email"];
+                        string Rphone = row["phoneNum"].ToString();
                         if (Rphone == "0")
                             Rphone = "";
-                        string Raddress = (string)Data.Tables[0].Rows[0]["homeAddress"];
-                        string RGender = (string)Data.Tables[0].Rows[0]["Gender"];
-                        string Rdob = Data.Tables[0].Rows[0]["dob"].ToString();
-                        string Rage = (string)Data.Tables[0].Rows[0]["age"].ToString();
+                        string Raddress = (string)row["homeAddress"];
+                        string RGender = (string)row["Gender"];
+                        string Rdob = row["dob"].ToString();
+                        string Rage = (string)row["age"].ToString();
                         table = string.Format("<table cellpadding = \"5\" id = \"userInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr><tr><td class=\"cell\">{0}</td><td class=\"cell\">{1}</td><td class=\"cell\">{2}</td><td class=\"cell\">{3}</td><td class=\"cell\">{4}</td><td class=\"cell\">{5}</td><td class=\"cell\">{6}</td><td class=\"cell\">{7}</td><td class=\"cell\">{8}</td></tr></table>", Rusername, Rpassword, RfirstName, RlastName, Remail, Rphone, Raddress, RGender, Rdob, Rage);
                     }
                 }

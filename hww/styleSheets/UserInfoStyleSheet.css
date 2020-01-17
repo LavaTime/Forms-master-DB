@@ -7,6 +7,16 @@
     top: 30px;
 }
 
+#AlluserInfoTable
+{
+    position: absolute;
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 30px;
+    top: 30px;
+}
+
+
 .cell
 {
     border: 2px solid black;

@@ -11,4 +11,5 @@
         <br />
     <button type="submit" id="removeInfoB" class="buttons" name="deleteInfo">מחק משתמש</button>
     </form>
+    <%=button %>
 </asp:Content>

@@ -77,6 +77,7 @@
     <Content Include="EditUserData.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="showAllUsers.aspx" />
     <Content Include="styleSheets\homeStyleSheet.css" />
     <Content Include="Login.aspx" />
     <Content Include="styleSheets\loginStyleSheet.css" />
@@ -132,6 +133,13 @@
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showAllUsers.aspx.cs">
+      <DependentUpon>showAllUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showAllUsers.aspx.designer.cs">
+      <DependentUpon>showAllUsers.aspx</DependentUpon>
     </Compile>
     <Compile Include="User info.aspx.cs">
       <DependentUpon>User info.aspx</DependentUpon>

@@ -52,7 +52,7 @@ namespace hww
             System.Diagnostics.Debug.WriteLine("Form[\"SubmitEdit\"] is " + Request.Form["SubmitEdit"]);
             if (Request.Form["SubmitEdit"] != null)
             {
-                string username = Request.Form["username"];
+                string username = Rusername;
                 string password = Request.Form["password"];
                 string firstName = Request.Form["firstName"];
                 string lastName = Request.Form["lastName"];
@@ -65,20 +65,20 @@ namespace hww
 
                 if (email != "" && username != "")
                 {
-                    if (!isEmailUnique(email))
+                    if (!isEmailUnique(email) && Remail != email)
                     {
                         Session["CsErr"] = "כתובת האימייל קיימת כבר במערכת, השתמשו בדף הרשם במקום עדכון";
                         Response.Redirect("/ErrorPage.aspx");
                     }
-                    if (!isUsernameUnique(username))
+                    if (!isUsernameUnique(username) && Rusername != username)
                     {
                         Session["CsErr"] = "שם המשתמש קיים כבר במערכת, השתמשו בדך הרשם במקום עדכון";
                         Response.Redirect("/ErrorPage.aspx");
                     }
 
                     String SQLConstr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\source\repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
-                    System.Diagnostics.Debug.WriteLine(SQLConstr);
-                    string sqlq = string.Format("UPDATE users SET username = N'{0}', userPassword = N'{1}', firstName = N'{2}', lastName = N'{3}', email = N'{4}', phoneNum = N'{5}', homeAddress = N'{6}', Gender = N'{7}', dob = N'{8}', age = N'{9}' WHERE username = N'{0}'", Rusername, Rpassword, RfirstName, RlastName, Remail, Rphone, Raddress, RGender, Rdob, Rage);
+                    string sqlq = string.Format("UPDATE users SET username = N'{0}', userPassword = N'{1}', firstName = N'{2}', lastName = N'{3}', email = N'{4}', phoneNum = N'{5}', homeAddress = N'{6}', Gender = N'{7}', dob = N'{8}', age = N'{9}' WHERE username = N'{10}'", username, password, firstName, lastName, email, phoneNum, address, gender, dob, age, username);
+                    System.Diagnostics.Debug.WriteLine(sqlq);
                     SqlConnection SqlCon = new SqlConnection(SQLConstr);
                     SqlCommand updateQuery = new SqlCommand(sqlq, SqlCon);
                     SqlCon.Open();
