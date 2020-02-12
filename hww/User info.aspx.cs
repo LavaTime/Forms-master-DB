@@ -53,7 +53,7 @@ namespace hww
             else
             {
                 // add an if to check for Session Admin
-                string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\source\repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
+                string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
                 SqlConnection SqlConn = new SqlConnection(connStr);
                 string cmdStr = string.Format("SELECT * FROM users WHERE (username = N'{0}')", Session["usernameData"]);
                 SqlCommand SqlCmd = new SqlCommand(cmdStr, SqlConn);
@@ -86,7 +86,7 @@ namespace hww
             if (Request.Form["deleteInfo"] != null)
             {
                 // FIXE deleted message!!!
-                string sqlConString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\source\repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
+                string sqlConString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
                 SqlConnection sqlConnection = new SqlConnection(sqlConString);
                 string SqlDeleteCmdString = string.Format("DELETE FROM users WHERE username = N'{0}'", Session["usernameData"]);
                 SqlCommand SqlDeleteCmd = new SqlCommand(SqlDeleteCmdString, sqlConnection);

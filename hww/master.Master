@@ -17,6 +17,7 @@
                 <li><a id="home" href="Home.aspx" class="navMenu" >בית</a></li>
                 <li><a id="regis" href="Register.aspx" class="navMenu">הרשמה</a></li>
                 <li><a id="login" href="Login.aspx" class="navMenu">התחברות</a></li>
+                <li><a id="logout" href="Logout.aspx" class="navMenu">התנתקות</a></li>
             </ul>
         </nav>
     </header>

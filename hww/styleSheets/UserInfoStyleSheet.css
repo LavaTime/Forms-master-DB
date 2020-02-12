@@ -9,7 +9,7 @@
 
 #AlluserInfoTable
 {
-    position: absolute;
+    position: static;
     border: 2px solid black;
     border-collapse: collapse;
     padding: 30px;
@@ -43,4 +43,10 @@ th {
 
 #removeInfoB {
     right: 16%;
+}
+
+#filterForm {
+    top: initial;
+    right: initial;
+    position: static;
 }

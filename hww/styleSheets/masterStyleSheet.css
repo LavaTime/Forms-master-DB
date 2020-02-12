@@ -54,7 +54,7 @@ img #logo {
 }
 
 nav {
-    position: fixed;
+    position: static;
     display: flex;
 }
 

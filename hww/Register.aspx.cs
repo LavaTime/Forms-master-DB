@@ -41,7 +41,7 @@ namespace hww
                     }
                 }
                 // Connection string taken from the server explorer
-                string SQLconnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\source\repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
+                string SQLconnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
                 // Insert query to insert the corresponding data from the post to the database
                 string SQLQuery = string.Format("INSERT INTO users " +
                     "(username, userPassword, firstName, lastName, email, phoneNum, homeAddress, Gender, dob, age) " +
@@ -66,7 +66,7 @@ namespace hww
              * */
             bool exists = false;
             // Sql database connection string
-            string sqlConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\Source\Repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
+            string sqlConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
             SqlConnection SqlConn = new SqlConnection(sqlConnectionStr);
             string sqlCmdString = string.Format("SELECT * FROM users WHERE (email = N'{0}')", mail);
             SqlCommand sqlCmd = new SqlCommand(sqlCmdString, SqlConn);
@@ -85,7 +85,7 @@ namespace hww
              * */
             bool exists = false;
             //Sql databse connection string
-            string sqlConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\Source\Repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
+            string sqlConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
             SqlConnection SqlConn = new SqlConnection(sqlConnectionStr);
             string sqlCmdString = string.Format("SELECT * FROM users WHERE (username = N'{0}')", user);
             SqlCommand SqlCmd = new SqlCommand(sqlCmdString, SqlConn);

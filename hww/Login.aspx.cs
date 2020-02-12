@@ -51,7 +51,7 @@ namespace hww
 
             bool correct = false;
             // use the connection string recevied from the mainDB properties
-            string SQLConnStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\Source\Repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
+            string SQLConnStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
             // convert the SQLConn to an SqlConnection Object
             SqlConnection SQLConn = new SqlConnection(SQLConnStr);
             // create the command to look for fields that have the same username and password as the user entered
