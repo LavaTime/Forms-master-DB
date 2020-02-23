@@ -1,4 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -23,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,6 +74,11 @@
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\bomb.png" />
+    <Content Include="Assets\dude.png" />
+    <Content Include="Assets\platform.png" />
+    <Content Include="Assets\sky.png" />
+    <Content Include="Assets\star.png" />
     <Content Include="CanvasScript.js" />
     <Content Include="checkBoxScript.js" />
     <Content Include="checkLoginScript.js" />
@@ -80,9 +87,13 @@
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="phaserActualStupidFile.js" />
+    <Content Include="PhaserTest.aspx" />
     <Content Include="pong.aspx" />
     <Content Include="pongCanvas.js" />
     <Content Include="showAllUsers.aspx" />
+    <Content Include="stickFIghtScript.js" />
+    <Content Include="Assets\StickManSprite.png" />
     <Content Include="styleSheets\homeStyleSheet.css" />
     <Content Include="Login.aspx" />
     <Content Include="styleSheets\loginStyleSheet.css" />
@@ -138,6 +149,13 @@
     <Compile Include="master.Master.designer.cs">
       <DependentUpon>master.Master</DependentUpon>
     </Compile>
+    <Compile Include="PhaserTest.aspx.cs">
+      <DependentUpon>PhaserTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PhaserTest.aspx.designer.cs">
+      <DependentUpon>PhaserTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pong.aspx.cs">
       <DependentUpon>pong.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -170,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="master.Master" />
+    <Content Include="jsconfig.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -178,11 +197,25 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="defs\matter.d.ts" />
+    <TypeScriptCompile Include="defs\phaser.d.ts" />
+    <TypeScriptCompile Include="defs\spine-canvas.d.ts" />
+    <TypeScriptCompile Include="defs\spine-webgl.d.ts" />
+    <TypeScriptCompile Include="defs\spine.d.ts" />
+    <TypeScriptCompile Include="defs\SpineFile.d.ts" />
+    <TypeScriptCompile Include="defs\SpineGameObject.d.ts" />
+    <TypeScriptCompile Include="defs\SpinePlugin.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>

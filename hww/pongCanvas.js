@@ -118,8 +118,15 @@ function Round() {
         //var botDirection = true;
         // true means up
         //var bot = new Rect(1200, 207, 20, 100, 'darkgreen');
-        if ((((ball.x - 5) >= player.x && (ball.x + 5) <= (player.x + player.width)) && ((ball.y - 5) >= player.y && (ball.y + 5) <= player.y + player.height)) || (((ball.x - 5) >= bot.x && (ball.x + 5) <= (bot.x + bot.width)) && ((ball.y - 5) >= bot.y && (ball.y + 5) <= bot.y + bot.height))) {
+        if ((((ball.x - 5) >= player.x && (ball.x + 5) <= (player.x + player.width)) && ((ball.y - 5) >= player.y && (ball.y + 5) <= player.y + player.height)) || (((ball.x + 5) >= bot.x && (ball.x - 5) <= (bot.x + bot.width)) && ((ball.y + 5) >= bot.y && (ball.y - 5) <= bot.y + bot.height))) {
             ballVectorX *= (-1);
+            var randomVector;
+            do {
+                randomVector = Math.random();
+                if (Math.random() >= 0.5)
+                    randomVector *= (-1);
+            } while (randomVector <= 0.25 && randomVector >= 0.75 && !(ballVectorX + randomVector != 0));
+            ballVectorX += randomVector;
         }
         ball.x += ballVectorX;
         if (ball.y == 720 || ball.y == 0) {
@@ -127,7 +134,7 @@ function Round() {
         }
         ball.y += ballVectorY;
 
-        if (ball.x == 0) {
+        if (ball.x <= 0) {
             score[1]++;
             ball.x = 640;
             ball.y = 360;
@@ -136,7 +143,7 @@ function Round() {
             bot.x = 1200;
             bot.y = 207;
         }
-        if (ball.x == 1280) {
+        if (ball.x >= 1280) {
             score[0]++;
             ball.x = 640;
             ball.y = 360;
