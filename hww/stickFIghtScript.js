@@ -17,14 +17,21 @@ var config = {
     }
 };
 
-var player;
-var stars;
+var player1;
+var player2;
+var ammo;
 var bombs;
 var platforms;
 var cursors;
-var score = 0;
+var keyW;
+var keyA;
+var keyD;
+var keyUP;
+var keyRIGHT;
+var keyLEFT;
+var playerOneAmmo = 0;
 var gameOver = false;
-var scoreText;
+var p1Ammo;
 
 var game = new Phaser.Game(config);
 
@@ -33,6 +40,8 @@ function preload() {
     this.load.image('ground', 'Assets/platform.png');
     this.load.image('star', 'Assets/star.png');
     this.load.image('bomb', 'Assets/bomb.png');
+    this.load.image('pistol1', 'Assets/Guns/png/pistol2.png');
+    this.load.image('ammoBox', 'Assets/Guns/png/ammobox.png');
     this.load.spritesheet('dude', 'Assets/StickManSprite.png', { frameWidth: 32, frameHeight: 64 } );
     //this.load.image()
 }
@@ -54,11 +63,13 @@ function create() {
     platforms.create(750, 220, 'ground');
 
     // The player and its settings
-    player = this.physics.add.sprite(100, 450, 'dude');
-
+    player1 = this.physics.add.sprite(300, 450, 'dude');
+    player2 = this.physics.add.sprite(100, 450, 'dude');
     //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
+    player1.setBounce(0.2);
+    player1.setCollideWorldBounds(true);
+    player2.setBounce(0.2);
+    player2.setCollideWorldBounds(true);
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -83,35 +94,104 @@ function create() {
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
-
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    // arrowUp key for player 1 (JUMP)
+    this.input.keyboard.on('keydown_UP', function (event) {
+        if (player1.body.touching.down) {
+            player1.setVelocityY(-340);
+        }
+    });
+    // arrowRight key for player 1 (RIGHT)
+    this.input.keyboard.on('keydown_RIGHT', function (event) {
+        player1.setVelocityX(160);
+        player1.anims.play('right', true);
+    });
+    // arrowLeft key for player 1 (LEFT)
+    this.input.keyboard.on('keydown_LEFT', function (event) {
+        player1.setVelocityX(-160);
+        player1.anims.play('left', true);
     });
 
-    stars.children.iterate(function (child) {
 
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
+
+    //        ADD STOP ANIMATION
+
+
+
+
+    
+    // W key for player 2 (JUMP)
+    this.input.keyboard.on('keydown_W', function (event) {
+        if (player2.body.touching.down) {
+            player2.setVelocityY(-340);
+        }
+    });
+    // D key for player 2 (RIGHT)
+    this.input.keyboard.on('keydown_D', function (event) {
+        player2.setVelocityX(160);
+        player2.anims.play('right', true);
+    });
+    // A ket for player 2 (LEFT)
+    this.input.keyboard.on('keydown_A', function (event) {
+        player2.setVelocityX(-160);
+        player2.anims.play('left', true);
+    });
+
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+    ammo = this.physics.add.group({
+        key: 'ammoBox',
+        repeat: 5,
+        setXY: { x: 12, y: 0, stepX: 140 }
+    });
+
+    pistol1s = this.physics.add.group({
+        key: 'pistol1',
+        repeat: 5,
+        setXY: { x: 82, y: 0, stepX: 140 }
+    });
+
+
+    ammo.children.iterate(function (child) {
+
+        //  Give each ammo pack a slightly different bounce
+        child.setScale(0.3);
+        child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
+
+    });
+
+    pistol1s.children.iterate(function (child) {
+        //scale each gun
+        child.setScale(0.3);
     });
 
     bombs = this.physics.add.group();
 
     //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    p1AmmoText = this.add.text(16, 16, 'P1 ammo: 0', { fontSize: '32px', fill: '#000' });
+    p2AmmoText = this.add.text(584, 16, 'P2 ammo: 0', { fontSize: '32px', fill: '#000' });
 
     //  Collide the player and the stars with the platforms
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(player1, platforms);
+    this.physics.add.collider(player2, platforms);
+    this.physics.add.collider(player1, player2);
+    this.physics.add.collider(ammo, platforms);
+    this.physics.add.collider(pistol1s, platforms);
     this.physics.add.collider(bombs, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, null, this);
+    this.physics.add.overlap(player1, ammo, collect, null, this);
+    this.physics.add.overlap(player2, ammo, collect, null, this);
+    this.physics.add.overlap(player1, pistol1s, collect, null, this);
+    this.physics.add.overlap(player2, pistol1s, collect, null, this);
 
-    this.physics.add.collider(player, bombs, hitBomb, null, this);
+    this.physics.add.collider(player1, bombs, hitBomb, null, this);
+    this.physics.add.collider(player2, bombs, hitBomb, null, this);
 }
 
 function update() {
@@ -119,37 +199,41 @@ function update() {
         return;
     }
 
-    if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+    if (this.keyUP.isUp && this.keyRIGHT.isUp && this.keyLEFT.isUp) {
+        player1.setVelocityX(0);
 
-        player.anims.play('left', true);
-    }
-    else if (cursors.right.isDown) {
-        player.setVelocityX(160);
-
-        player.anims.play('right', true);
-    }
-    else {
-        player.setVelocityX(0);
-
-        player.anims.play('turn');
+        player1.anims.play('turn');
     }
 
-    if (cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-330);
+    if (this.keyW.isUp && this.keyD.isUp && this.keyA.isUp) {
+        player2.setVelocityX(0);
+        player2.anims.play('turn');
     }
 }
 
-function collectStar(player, star) {
-    star.disableBody(true, true);
+function collect(player, obj) {
+    obj.disableBody(true, true);
 
     //  Add and update the score
-    score += 10;
-    scoreText.setText('Score: ' + score);
+    if (player == player1) {
+        if (obj == ammo) {
+            playerOneAmmo += 5;
+            p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+        } else if (obj == pistol1s) {
+            ;
+        }
+    } else {
+        if (obj == ammo) {
+            playerOneAmmo += 10;
+            p2AmmoText.setText('P2 ammo: ' + playerOneAmmo);
+        } else if (obj == pistol1s) {
+            ;
+        }
+    }
 
-    if (stars.countActive(true) === 0) {
+    if (ammo.countActive(true) === 0) {
         //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
+        ammo.children.iterate(function (child) {
 
             child.enableBody(true, child.x, 0, true, true);
 
