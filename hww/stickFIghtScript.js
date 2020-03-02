@@ -17,6 +17,15 @@ var config = {
     }
 };
 
+
+class player {
+    constructor() {
+    }
+}
+
+
+// REMEMBER TO CHANGE ALL POSSIBLE CONSTANTS TO const
+
 var player1;
 var player2;
 var ammo;
@@ -30,8 +39,12 @@ var keyUP;
 var keyRIGHT;
 var keyLEFT;
 var playerOneAmmo = 0;
+var playerTwoAmmo = 0;
 var gameOver = false;
 var p1Ammo;
+
+//                         ADD P2 ammo
+
 
 var game = new Phaser.Game(config);
 
@@ -213,20 +226,20 @@ function update() {
 
 function collect(player, obj) {
     obj.disableBody(true, true);
-
     //  Add and update the score
     if (player == player1) {
-        if (obj == ammo) {
+        if (obj.texture.key == 'ammoBox') {
             playerOneAmmo += 5;
             p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
-        } else if (obj == pistol1s) {
-            ;
+        } else if (obj.texture.key == 'pistol1') {
+            var handheld = this.add.image(player.x, player.y, 'pistol1');
+            handheld.setScale(0.2);
         }
     } else {
-        if (obj == ammo) {
-            playerOneAmmo += 10;
-            p2AmmoText.setText('P2 ammo: ' + playerOneAmmo);
-        } else if (obj == pistol1s) {
+        if (obj.texture.key == 'ammoBox') {
+            playerTwoAmmo += 5;
+            p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
+        } else if (obj.texture.key == 'pistol1') {
             ;
         }
     }
