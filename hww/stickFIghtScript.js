@@ -228,7 +228,7 @@ function collect(player, obj) {
     obj.disableBody(true, true);
     //  Add and update the score
     if (player == player1) {
-        if (obj.texture.key == 'ammoBox') {
+        if (obj.texture.key = 'ammoBox') {
             playerOneAmmo += 5;
             p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
         } else if (obj.texture.key == 'pistol1') {
