@@ -129,6 +129,8 @@
     <Content Include="Assets\platform.png" />
     <Content Include="Assets\sky.png" />
     <Content Include="Assets\star.png" />
+    <Content Include="Assets\StickManSprite.v1.png" />
+    <Content Include="Assets\StickManSprite.v4 %281%29.png" />
     <Content Include="CanvasScript.js" />
     <Content Include="checkBoxScript.js" />
     <Content Include="checkLoginScript.js" />
@@ -136,6 +138,7 @@
     <Content Include="EditUserData.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="HtmlTest.html" />
     <Content Include="Logout.aspx" />
     <Content Include="phaserActualStupidFile.js" />
     <Content Include="PhaserTest.aspx" />

@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/master.Master" AutoEventWireup="true" CodeBehind="PhaserTest.aspx.cs" Inherits="hww.PhaserTest" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="phaserActualStupidFile.js"></script>
+    <%--<script src="phaserActualStupidFile.js"></script>--%>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
 
