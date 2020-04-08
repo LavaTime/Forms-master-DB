@@ -66,7 +66,6 @@ namespace hww
                 else
                 {
                     //REMEBER TO REMOVE, USED FOR TESTING ONLY
-                    Session["isAdmin"] = "True";
                     if (Session["isAdmin"].ToString() == "True")
                     {
                         Table += "<table cellpadding = \"5\" id = \"AlluserInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr>";
@@ -107,7 +106,6 @@ namespace hww
             else
             {
                 //REMEBER TO REMOVE, USED FOR TESTING ONLY
-                Session["isAdmin"] = "True";
                 if (Session["isAdmin"].ToString() == "True")
                 {
                     Table += "<table cellpadding = \"5\" id = \"AlluserInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr>";

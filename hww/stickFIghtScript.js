@@ -137,34 +137,7 @@ function create() {
     // mouse Input
     this.input.mouse.disableContextMenu();
 
-    this.input.on('pointerup', function (pointer) {
-
-        if (pointer.leftButtonReleased()) {
-            if (playerOneAmmo > 0) {
-                if (handheld1.texture.key == 'pistol1') {
-                    playerOneAmmo -= 1;
-                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
-                    shots.create(player1.x + 27, player1.y - 7, 'bullet')
-                        .setScale(0.25)
-                        .setVelocityX(850)
-                        .setAngle(90);
-                }
-            }
-        }
-        else if (pointer.rightButtonReleased()) {
-            ;
-        }
-        else if (pointer.middleButtonReleased()) {
-            ;
-        }
-        else if (pointer.backButtonReleased()) {
-            ;
-        }
-        else if (pointer.forwardButtonReleased()) {
-            ;
-        }
-
-    });
+    
     // Keyboard input
     cursors = this.input.keyboard.createCursorKeys();
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -203,6 +176,41 @@ function create() {
             }
         }
     });
+
+    this.input.on('pointerdown', function (pointer) {
+        if (pointer.leftButtonDown()) {
+            if (playerTwoAmmo > 0) {
+                if (handheld2.texture.key == 'pistol1') {
+                    if (!handheld2.flipX) {
+                        handheld2.flipX = true;
+                        handheld2.x *= -1;
+                    }
+                    playerTwoAmmo -= 1;
+                    p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
+                    shots.create(player2.x - 40, player2.y - 7, 'bullet')
+                        .setScale(0.25)
+                        .setVelocityX(-850)
+                        .setAngle(90);
+                }
+            }
+        }
+        else if (pointer.rightButtonDown()) {
+            if (playerTwoAmmo > 0) {
+                if (handheld2.texture.key == 'pistol1') {
+                    if (handheld2.flipX) {
+                        handheld2.flipX = false;
+                        handheld2.x *= -1;
+                    }
+                    playerTwoAmmo -= 1;
+                    p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
+                    shots.create(player2.x + 27, player2.y - 7, 'bullet')
+                        .setScale(0.25)
+                        .setVelocityX(850)
+                        .setAngle(90);
+                }
+            }
+        }
+    }, this);
 
 
 
