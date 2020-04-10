@@ -14,6 +14,9 @@ var config = {
         preload: preload,
         create: create,
         update: update
+    },
+    audio: {
+        disableWebAudio: true
     }
 };
 
@@ -23,10 +26,38 @@ function RndRange(min, max) {
 
 // REMEMBER TO CHANGE ALL POSSIBLE CONSTANTS TO const
 
+// HP:100
+// pistol: 0.5sec delay, damage: 100/7 (7 shots to kill)
+// assualt rifle: 0.1sec delay, damage: 100/5 (5 shots to kill)
+// sniper rifle: 1sec delay, damage: 90 (2 shots to kill but kills with any other gun)
+
+
+class Player {
+    constructor(id, startX) {
+        this.ID = id;
+        this.Container = game.add.container(startX, 450);
+        this.Container.setSize(20 * 1.3, 49 * 1.3);
+        this.Body = game.add.sprite(0, 0, 'dude');
+        this.Body.setSize(1.3);
+        this.Handheld = game.add.image(20, 0)
+        this.Container.add(this.Body);
+        this.Container.add(this.Handheld);
+        this.hp = 100;
+        this.ammo = 0;
+        this.autoFire = false;
+        this.autoFireRight = true;
+    }
+}
+
+player1 = new Player(1, 300);
+player2 = new Player(2, 300);
+
 var player1;
 var player2;
 var body1;
 var body2;
+var hp1 = 100;
+var hp2 = 100;
 var ammo;
 var bombs;
 var platforms;
@@ -45,21 +76,31 @@ var handheld1;
 var handheld2;
 var shots;
 var pointer;
-
-//                         ADD P2 ammo
-
+var autoFire1;
+var autoFire2;
+var autoFireDir1;
+var autoFireDir2;
 
 var game = new Phaser.Game(config);
 
 function preload() {
+    // Image and sprite loading
     this.load.image('sky', 'Assets/sky.png');
     this.load.image('ground', 'Assets/platform.png');
     this.load.image('star', 'Assets/star.png');
     this.load.image('bomb', 'Assets/bomb.png');
     this.load.image('pistol1', 'Assets/Guns/png/pistol2.png');
+    this.load.image('assaultRifle1', 'Assets/Guns/png/assaultrifle.png');
+    this.load.image('sniperRifle1', 'Assets/Guns/png/sniper2.png');
+    this.load.image('grenade1', 'Assets/Guns/png/grenade.png');
     this.load.image('ammoBox', 'Assets/Guns/png/ammobox.png');
-    this.load.image('bullet', 'Assets/Guns/png/small_bullet.png');
-    this.load.spritesheet('dude', 'Assets/StickManSprite.png', { frameWidth: 32, frameHeight: 64 } );
+    this.load.image('bullet1', 'Assets/Guns/png/small_bullet.png');
+    this.load.image('bullet2', 'Assets/Guns/png/medium_bullet2.png');
+    this.load.image('bullet3', 'Assets/Guns/png/large_bullet.png');
+    this.load.spritesheet('dude', 'Assets/StickManSprite.png', { frameWidth: 32, frameHeight: 64 });
+    // Sound files and music loading
+    this.load.audio('victory', 'Assets/SFX/Athena_-_Victory.ogg');
+    // TODO: add sound files and sound playing for each of the actions in the game.
     //this.load.image()
 }
 
@@ -96,6 +137,10 @@ function create() {
 
     shots = this.physics.add.group({
         allowGravity: false
+    });
+
+    weapons = this.physics.add.group({
+
     });
 
     //enable physics for the player container
@@ -136,7 +181,6 @@ function create() {
     //  Input Events
     // mouse Input
     this.input.mouse.disableContextMenu();
-
     
     // Keyboard input
     cursors = this.input.keyboard.createCursorKeys();
@@ -146,7 +190,8 @@ function create() {
     this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     this.keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    this.KEYF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.KEYG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+    this.KEYH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     // arrowUp key for player 1 (JUMP)
     this.input.keyboard.on('keydown_UP', function (event) {
         if (player1.body.touching.down) {
@@ -156,26 +201,118 @@ function create() {
     // arrowRight key for player 1 (RIGHT)
     this.input.keyboard.on('keydown_RIGHT', function (event) {
         player1.body.setVelocityX(300);
+        if (handheld1.flipX) {
+            handheld1.flipX = false;
+            handheld1.x *= -1;
+        }
         body1.anims.play('right', true);
     });
     // arrowLeft key for player 1 (LEFT)
     this.input.keyboard.on('keydown_LEFT', function (event) {
         player1.body.setVelocityX(-300);
+        if (!handheld1.flipX) {
+            handheld1.flipX = true;
+            handheld1.x *= -1;
+        }
         body1.anims.play('left', true);
     });
     // F key for shooting
-    this.input.keyboard.on('keydown_F', function (event) {
+    this.input.keyboard.on('keydown_G', function (event) {
         if (playerOneAmmo > 0) {
-            if (handheld1.texture.key == 'pistol1') {
-                playerOneAmmo -= 1;
-                p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
-                shots.create(player1.x + 27, player1.y - 7, 'bullet')
-                    .setScale(0.25)
-                    .setVelocityX(850)
-                    .setAngle(90);
+            switch (handheld1.texture.key) {
+                case 'pistol1':
+                    if (!handheld1.flipX) {
+                        handheld1.flipX = true;
+                        handheld1.x *= -1;
+                    }
+                    playerOneAmmo -= 1;
+                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+                    shots.create(player1.x - 40, player1.y - 7, 'bullet1')
+                        .setScale(0.25)
+                        .setVelocityX(-850)
+                        .setAngle(-90);
+                    break;
+                case 'assaultRifle1':
+                    if (!handheld1.flipX) {
+                        handheld1.flipX = true;
+                        handheld1.x *= -1;
+                    }
+                    playerOneAmmo -= 1;
+                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+                    shots.create(player1.x - 40, player1.y - 7, 'bullet2')
+                        .setScale(0.3)
+                        .setVelocityX(-850)
+                        .setAngle(-90);
+                    break;
+                case 'sniperRifle1':
+                    if (!handheld1.flipX) {
+                        handheld1.flipX = true;
+                        handheld1.x *= -1;
+                    }
+                    playerOneAmmo -= 1;
+                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+                    shots.create(player1.x - 40, player1.y - 7, 'bullet3')
+                        .setScale(0.4)
+                        .setVelocityX(-850)
+                        .setAngle(-90);
+                    break;
+                default:
+                    break;
             }
         }
     });
+
+    this.input.keyboard.on('keydown_H', function (event) {
+        if (playerOneAmmo > 0) {
+            switch (handheld1.texture.key) {
+                case 'pistol1':
+                    if (handheld1.flipX) {
+                        handheld1.flipX = false;
+                        handheld1.x *= -1;
+                    }
+                    playerOneAmmo -= 1;
+                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+                    shots.create(player1.x + 40, player1.y - 7, 'bullet1')
+                        .setScale(0.25)
+                        .setVelocityX(850)
+                        .setAngle(-90);
+                    break;
+                case 'assaultRifle1':
+                    if (handheld1.flipX) {
+                        handheld1.flipX = false;
+                        handheld1.x *= -1;
+                    }
+                    /*
+                    playerOneAmmo -= 1;
+                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+                    shots.create(player1.x + 40, player1.y - 7, 'bullet2')
+                        .setScale(0.3)
+                        .setVelocityX(850)
+                        .setAngle(-90);*/
+                    autoFire1 = true;
+                    autoFireDir1 = true;
+                    break;
+                case 'sniperRifle1':
+                    if (handheld1.flipX) {
+                        handheld1.flipX = false;
+                        handheld1.x *= -1;
+                    }
+                    playerOneAmmo -= 1;
+                    p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+                    shots.create(player1.x + 40, player1.y - 7, 'bullet3')
+                        .setScale(0.4)
+                        .setVelocityX(850)
+                        .setAngle(-90);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+
+    setInterval(function () {
+        if 
+    }, 100);
 
     this.input.on('pointerdown', function (pointer) {
         if (pointer.leftButtonDown()) {
@@ -187,7 +324,7 @@ function create() {
                     }
                     playerTwoAmmo -= 1;
                     p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
-                    shots.create(player2.x - 40, player2.y - 7, 'bullet')
+                    shots.create(player2.x - 40, player2.y - 7, 'bullet1')
                         .setScale(0.25)
                         .setVelocityX(-850)
                         .setAngle(90);
@@ -203,7 +340,7 @@ function create() {
                     }
                     playerTwoAmmo -= 1;
                     p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
-                    shots.create(player2.x + 27, player2.y - 7, 'bullet')
+                    shots.create(player2.x + 27, player2.y - 7, 'bullet1')
                         .setScale(0.25)
                         .setVelocityX(850)
                         .setAngle(90);
@@ -229,11 +366,19 @@ function create() {
     // D key for player 2 (RIGHT)
     this.input.keyboard.on('keydown_D', function (event) {
         player2.body.setVelocityX(160);
+        if (handheld2.flipX) {
+            handheld2.flipX = false;
+            handheld2.x *= -1;
+        }
         body2.anims.play('right', true);
     });
     // A ket for player 2 (LEFT)
     this.input.keyboard.on('keydown_A', function (event) {
         player2.body.setVelocityX(-160);
+        if (!handheld2.flipX) {
+            handheld2.flipX = true;
+            handheld2.x *= -1;
+        }
         body2.anims.play('left', true);
     });
 
@@ -244,12 +389,33 @@ function create() {
         setXY: { x: 12, y: 0, stepX: 140 }
     });
 
-    pistol1s = this.physics.add.group({
-        key: 'pistol1',
-        repeat: 5,
-        setXY: { x: 82, y: 0, stepX: 140 }
-    });
-
+    setInterval(function () {
+        var spawnObject = RndRange(0, 100);
+        if (spawnObject < 34) {
+            var chooseObject = RndRange(0, 4);
+            var objectX = RndRange(0, 1281);
+            switch (chooseObject) {
+                case 0:
+                    weapons.create(objectX, 0, 'pistol1')
+                        .setScale(0.25);
+                    break;
+                case 1:
+                    weapons.create(objectX, 0, 'assaultRifle1')
+                        .setScale(0.17);
+                    break;
+                case 2:
+                    weapons.create(objectX, 0, 'sniperRifle1')
+                        .setScale(0.17);
+                    break;
+                case 3:
+                    weapons.create(objectX, 0, 'grenade1')
+                        .setScale(0.2);;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }, 1000);
 
     ammo.children.iterate(function (child) {
 
@@ -257,11 +423,6 @@ function create() {
         child.setScale(0.18);
         child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
 
-    });
-
-    pistol1s.children.iterate(function (child) {
-        //scale each gun
-        child.setScale(0.25);
     });
 
     bombs = this.physics.add.group();
@@ -275,20 +436,24 @@ function create() {
     this.physics.add.collider(player2, platforms);
     this.physics.add.collider(player1, player2);
     this.physics.add.collider(ammo, platforms);
-    this.physics.add.collider(pistol1s, platforms);
+    //this.physics.add.collider(pistol1s, platforms);
     this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(weapons, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player1, ammo, overlap, null, this);
     this.physics.add.overlap(player2, ammo, overlap, null, this);
-    this.physics.add.overlap(player1, pistol1s, overlap, null, this);
-    this.physics.add.overlap(player2, pistol1s, overlap, null, this);
+    this.physics.add.overlap(player1, weapons, overlap, null, this);
+    this.physics.add.overlap(player2, weapons, overlap, null, this);
+    //this.physics.add.overlap(player1, pistol1s, overlap, null, this);
+    //this.physics.add.overlap(player2, pistol1s, overlap, null, this);
     this.physics.add.overlap(player1, shots, overlap, null, this);
     this.physics.add.overlap(player2, shots, overlap, null, this);
 
 }
 
 function update() {
+
     if (gameOver) {
         return;
     }
@@ -314,32 +479,68 @@ function overlap(player, obj) {
             playerOneAmmo += 5;
             p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
         } else if (obj.texture.key == 'pistol1') {
+            playerOneAmmo += 5;
+            p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
             handheld1.setTexture('pistol1');
             handheld1.setScale(0.25)
-        } else if (obj.texture.key == 'bullet') {
-            this.physics.pause();
+        } else if (obj.texture.key == 'bullet1') {
+            hp -= 100 / 7;
+            if (hp1 < 0) {
+                this.physics.pause();
+                body2.setTint(0xff0000);
+                body1.setTint(0xff0000);
+                body2.anims.play('turn');
+                body1.anims.play('turn');
 
-            body1.setTint(0xff0000);
-
-            body1.anims.play('turn');
-
-            gameOver = true;
+                var victorySFX = this.sound.add('victory');
+                victorySFX.play();
+                // UNDONE: add image when game is over
+                gameOver = true;
+            }
+        } else if (obj.texture.key == 'assaultRifle1') {
+            playerOneAmmo += 7;
+            p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+            handheld1.setTexture('assaultRifle1');
+            handheld1.setScale(0.17);
+        } else if (obj.texture.key == 'sniperRifle1') {
+            playerOneAmmo += 3;
+            p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
+            handheld1.setTexture('sniperRifle1');
+            handheld1.setScale(0.17);
         }
     } else {
         if (obj.texture.key == 'ammoBox') {
             playerTwoAmmo += 5;
             p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
         } else if (obj.texture.key == 'pistol1') {
+            playerTwoAmmo += 5;
+            p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
             handheld2.setTexture('pistol1');
             handheld2.setScale(0.25)
-        } else if (obj.texture.key == 'bullet') {
-            this.physics.pause();
+        } else if (obj.texture.key == 'bullet1') {
+            hp2 -= 100 / 7;
+            if (hp2 < 0) {
+                this.physics.pause();
+                body2.setTint(0xff0000);
+                body1.setTint(0xff0000);
+                body2.anims.play('turn');
+                body1.anims.play('turn');
 
-            body2.setTint(0xff0000);
-
-            body2.anims.play('turn');
-
-            gameOver = true;
+                var victorySFX = this.sound.add('victory');
+                victorySFX.play();
+                // UNDONE: add image when game is over
+                gameOver = true;
+            }
+        } else if (obj.texture.key == 'assaultRifle1') {
+            playerTwoAmmo += 7;
+            p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
+            handheld2.setTexture('assaultRifle1');
+            handheld2.setScale(0.17);
+        } else if (obj.texture.key == 'sniperRifle1') {
+            playerTwoAmmo += 3;
+            p2AmmoText.setText('P2 ammo: ' + playerTwoAmmo);
+            handheld2.setTexture('sniperRifle1');
+            handheld2.setScale(0.17);
         }
     }
 
@@ -361,3 +562,4 @@ function overlap(player, obj) {
 
     }
 }
+// UNDONE: make a variable hold the speed for multiple objs  (players, bullets, etc)
