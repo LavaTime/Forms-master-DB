@@ -1,4 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -23,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,14 +69,85 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="adminTable.xml" />
     <Content Include="App_Data\mainDB.mdf" />
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\bomb.png" />
+    <Content Include="Assets\dude.png" />
+    <Content Include="Assets\Guns\2X\ammobox.png" />
+    <Content Include="Assets\Guns\2X\assaultrifle.png" />
+    <Content Include="Assets\Guns\2X\assaultrifle2.png" />
+    <Content Include="Assets\Guns\2X\grenade.png" />
+    <Content Include="Assets\Guns\2X\large_bullet.png" />
+    <Content Include="Assets\Guns\2X\large_bullet2.png" />
+    <Content Include="Assets\Guns\2X\magazine.png" />
+    <Content Include="Assets\Guns\2X\magazine2.png" />
+    <Content Include="Assets\Guns\2X\magazine3.png" />
+    <Content Include="Assets\Guns\2X\medium_bullet.png" />
+    <Content Include="Assets\Guns\2X\medium_bullet2.png" />
+    <Content Include="Assets\Guns\2X\pistol.png" />
+    <Content Include="Assets\Guns\2X\pistol2.png" />
+    <Content Include="Assets\Guns\2X\pistol3.png" />
+    <Content Include="Assets\Guns\2X\revolver.png" />
+    <Content Include="Assets\Guns\2X\revolver2.png" />
+    <Content Include="Assets\Guns\2X\shotgun.png" />
+    <Content Include="Assets\Guns\2X\shotgun2.png" />
+    <Content Include="Assets\Guns\2X\small_bullet.png" />
+    <Content Include="Assets\Guns\2X\small_bullet2.png" />
+    <Content Include="Assets\Guns\2X\small_bullet3.png" />
+    <Content Include="Assets\Guns\2X\smg.png" />
+    <Content Include="Assets\Guns\2X\smg2.png" />
+    <Content Include="Assets\Guns\2X\sniper.png" />
+    <Content Include="Assets\Guns\2X\sniper2.png" />
+    <Content Include="Assets\Guns\png\ammobox.png" />
+    <Content Include="Assets\Guns\png\assaultrifle.png" />
+    <Content Include="Assets\Guns\png\assaultrifle2.png" />
+    <Content Include="Assets\Guns\png\grenade.png" />
+    <Content Include="Assets\Guns\png\large_bullet.png" />
+    <Content Include="Assets\Guns\png\large_bullet2.png" />
+    <Content Include="Assets\Guns\png\magazine.png" />
+    <Content Include="Assets\Guns\png\magazine2.png" />
+    <Content Include="Assets\Guns\png\magazine3.png" />
+    <Content Include="Assets\Guns\png\medium_bullet.png" />
+    <Content Include="Assets\Guns\png\medium_bullet2.png" />
+    <Content Include="Assets\Guns\png\pistol.png" />
+    <Content Include="Assets\Guns\png\pistol2.png" />
+    <Content Include="Assets\Guns\png\pistol3.png" />
+    <Content Include="Assets\Guns\png\revolver.png" />
+    <Content Include="Assets\Guns\png\revolver2.png" />
+    <Content Include="Assets\Guns\png\shotgun.png" />
+    <Content Include="Assets\Guns\png\shotgun2.png" />
+    <Content Include="Assets\Guns\png\small_bullet.png" />
+    <Content Include="Assets\Guns\png\small_bullet2.png" />
+    <Content Include="Assets\Guns\png\small_bullet3.png" />
+    <Content Include="Assets\Guns\png\smg.png" />
+    <Content Include="Assets\Guns\png\smg2.png" />
+    <Content Include="Assets\Guns\png\sniper.png" />
+    <Content Include="Assets\Guns\png\sniper2.png" />
+    <Content Include="Assets\platform.png" />
+    <Content Include="Assets\SFX\Athena_-_Victory.ogg" />
+    <Content Include="Assets\sky.png" />
+    <Content Include="Assets\star.png" />
+    <Content Include="Assets\StickManSprite.v1.png" />
+    <Content Include="Assets\StickManSprite.v4 %281%29.png" />
+    <Content Include="CanvasScript.js" />
+    <Content Include="checkBoxScript.js" />
     <Content Include="checkLoginScript.js" />
     <Content Include="checkRegisScript.js" />
+    <Content Include="EditUserData.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="HtmlTest.html" />
+    <Content Include="Logout.aspx" />
+    <Content Include="phaserActualStupidFile.js" />
+    <Content Include="PhaserTest.aspx" />
+    <Content Include="pong.aspx" />
+    <Content Include="pongCanvas.js" />
+    <Content Include="showAllUsers.aspx" />
+    <Content Include="stickFIghtScript.js" />
+    <Content Include="Assets\StickManSprite.png" />
     <Content Include="styleSheets\homeStyleSheet.css" />
     <Content Include="Login.aspx" />
     <Content Include="styleSheets\loginStyleSheet.css" />
@@ -82,11 +155,19 @@
     <Content Include="Register.aspx" />
     <Content Include="SQLQuery.sql" />
     <Content Include="styleSheets\regiStyleSheet.css" />
+    <Content Include="styleSheets\updateInfoStyleSheet.css" />
     <Content Include="User info.aspx" />
     <Content Include="styleSheets\UserInfoStyleSheet.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditUserData.aspx.cs">
+      <DependentUpon>EditUserData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditUserData.aspx.designer.cs">
+      <DependentUpon>EditUserData.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -108,12 +189,33 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="master.Master.cs">
       <DependentUpon>master.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="master.Master.designer.cs">
       <DependentUpon>master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="PhaserTest.aspx.cs">
+      <DependentUpon>PhaserTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PhaserTest.aspx.designer.cs">
+      <DependentUpon>PhaserTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pong.aspx.cs">
+      <DependentUpon>pong.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pong.aspx.designer.cs">
+      <DependentUpon>pong.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.aspx.cs">
@@ -122,6 +224,13 @@
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showAllUsers.aspx.cs">
+      <DependentUpon>showAllUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showAllUsers.aspx.designer.cs">
+      <DependentUpon>showAllUsers.aspx</DependentUpon>
     </Compile>
     <Compile Include="User info.aspx.cs">
       <DependentUpon>User info.aspx</DependentUpon>
@@ -133,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="master.Master" />
+    <Content Include="jsconfig.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -141,11 +251,28 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="defs\matter.d.ts" />
+    <TypeScriptCompile Include="defs\phaser.d.ts" />
+    <TypeScriptCompile Include="defs\spine-canvas.d.ts" />
+    <TypeScriptCompile Include="defs\spine-webgl.d.ts" />
+    <TypeScriptCompile Include="defs\spine.d.ts" />
+    <TypeScriptCompile Include="defs\SpineFile.d.ts" />
+    <TypeScriptCompile Include="defs\SpineGameObject.d.ts" />
+    <TypeScriptCompile Include="defs\SpinePlugin.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\music\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>

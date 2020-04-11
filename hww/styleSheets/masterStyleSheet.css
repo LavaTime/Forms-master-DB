@@ -54,7 +54,7 @@ img #logo {
 }
 
 nav {
-    position: fixed;
+    position: static;
     display: flex;
 }
 
@@ -62,4 +62,10 @@ form {
     right: 40%;
     top: 12%;
     position: fixed;
+}
+
+#userInfoForm {
+    right: unset;
+    top: unset;
+    position: initial;
 }

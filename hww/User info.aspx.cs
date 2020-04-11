@@ -6,12 +6,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace hww
 {
     public partial class User_info : System.Web.UI.Page
     {
         protected string table = "";
+        protected string button = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["usernameData"] == null)
@@ -19,17 +21,46 @@ namespace hww
                 Session["CsErr"] = "שגיאה 404 אנא הכנס פרטי משתמש";
                 Response.Redirect("ErrorPage.aspx");
             }
+            if (Session["isAdmin"].ToString() == "True")
+            {
+                button = "<form action=\"showAllUsers.aspx\" method=\"get\"><input type=\"submit\" value=\"פרטי כל המשתמשים\" name=\"Submit\" id=\"frm1_submit\" /></form >";
+                DataSet Data = new DataSet();
+                Data.ReadXml(MapPath("adminTable.xml"));
+                // thought about using a for loop as showen in DbExample but
+                // I wanted to do it seperatily to have all of the values seperated with names
+                // The R at the start stands for received
+                foreach (DataRow row in Data.Tables[0].Rows)
+                {
+                    if (row["username"].ToString() == Session["usernameData"].ToString())
+                    {
+                        string Rusername = (string)row["username"];
+                        string Rpassword = (string)row["userPassword"];
+                        string RfirstName = (string)row["firstName"];
+                        string RlastName = (string)row["lastName"];
+                        string Remail = (string)row["email"];
+                        string Rphone = row["phoneNum"].ToString();
+                        if (Rphone == "0")
+                            Rphone = "";
+                        string Raddress = (string)row["homeAddress"];
+                        string RGender = (string)row["Gender"];
+                        string Rdob = row["dob"].ToString();
+                        string Rage = (string)row["age"].ToString();
+                        table = string.Format("<table cellpadding = \"5\" id = \"userInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr><tr><td class=\"cell\">{0}</td><td class=\"cell\">{1}</td><td class=\"cell\">{2}</td><td class=\"cell\">{3}</td><td class=\"cell\">{4}</td><td class=\"cell\">{5}</td><td class=\"cell\">{6}</td><td class=\"cell\">{7}</td><td class=\"cell\">{8}</td></tr></table>", Rusername, Rpassword, RfirstName, RlastName, Remail, Rphone, Raddress, RGender, Rdob, Rage);
+                    }
+                }
 
-            // add an if to check for Session Admin
-            string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\amitk\source\repos\LavaTime\Forms-master-DB\hww\App_Data\mainDB.mdf;Integrated Security=True";
-            SqlConnection SqlConn = new SqlConnection(connStr);
-            string cmdStr = string.Format("SELECT * FROM users WHERE (username = N'{0}')", Session["usernameData"]);
-            SqlCommand SqlCmd = new SqlCommand(cmdStr, SqlConn);
-            SqlConn.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmdStr, connStr);
-            DataSet Data = new DataSet();
-            dataAdapter.Fill(Data);
-
+            }
+            else
+            {
+                // add an if to check for Session Admin
+                string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
+                SqlConnection SqlConn = new SqlConnection(connStr);
+                string cmdStr = string.Format("SELECT * FROM users WHERE (username = N'{0}')", Session["usernameData"]);
+                SqlCommand SqlCmd = new SqlCommand(cmdStr, SqlConn);
+                SqlConn.Open();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmdStr, connStr);
+                DataSet Data = new DataSet();
+                dataAdapter.Fill(Data);
             // thought about using a for loop as showen in DbExample but
             // I wanted to do it seperatily to have all of the values seperated with names
             // The R at the start stands for received
@@ -47,7 +78,27 @@ namespace hww
             string Rage = (string) Data.Tables[0].Rows[0]["age"].ToString();
             SqlConn.Close();
             table = string.Format("<table cellpadding = \"5\" id = \"userInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr><tr><td class=\"cell\">{0}</td><td class=\"cell\">{1}</td><td class=\"cell\">{2}</td><td class=\"cell\">{3}</td><td class=\"cell\">{4}</td><td class=\"cell\">{5}</td><td class=\"cell\">{6}</td><td class=\"cell\">{7}</td><td class=\"cell\">{8}</td></tr></table>", Rusername, Rpassword, RfirstName, RlastName, Remail, Rphone, Raddress, RGender, Rdob, Rage);
-
+            }
+            if (Request.Form["updateInfo"] != null || Request.Form["updateInfoB"] != null)
+            {
+                Response.Redirect("/EditUserData.aspx");
+            }
+            if (Request.Form["deleteInfo"] != null)
+            {
+                // FIXE deleted message!!!
+                string sqlConString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
+                SqlConnection sqlConnection = new SqlConnection(sqlConString);
+                string SqlDeleteCmdString = string.Format("DELETE FROM users WHERE username = N'{0}'", Session["usernameData"]);
+                SqlCommand SqlDeleteCmd = new SqlCommand(SqlDeleteCmdString, sqlConnection);
+                sqlConnection.Open();
+                int deleteLines = SqlDeleteCmd.ExecuteNonQuery();
+                System.Diagnostics.Debug.WriteLine(deleteLines);
+                sqlConnection.Close();
+                if (deleteLines != 0)
+                {
+                    Response.Redirect("/Home.aspx");
+                }
+            }
         }
     }
 }

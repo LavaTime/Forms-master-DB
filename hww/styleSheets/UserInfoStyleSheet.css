@@ -7,6 +7,16 @@
     top: 30px;
 }
 
+#AlluserInfoTable
+{
+    position: static;
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 30px;
+    top: 30px;
+}
+
+
 .cell
 {
     border: 2px solid black;
@@ -19,4 +29,24 @@ td {
 
 th {
     color: white;
+}
+
+.buttons {
+    top: 130px;
+    right: 50%; /*Been used only for checking, overriden by more specific selector*/
+    position: absolute;
+}
+
+#updateInfoB {
+    right: 10%;
+}
+
+#removeInfoB {
+    right: 16%;
+}
+
+#filterForm {
+    top: initial;
+    right: initial;
+    position: static;
 }

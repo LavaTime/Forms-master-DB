@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<admins>
+  <adminUser>
+    <username>AMITKEREN9</username>
+    <userPassword>CCaa123</userPassword>
+    <firstName>עמית</firstName>
+    <lastName>קרן</lastName>
+    <email>amitkeren999@gmail.com</email>
+    <phoneNum>0507711345</phoneNum>
+    <homeAddress>עודד 25 רמת חן רמת גן</homeAddress>
+    <Gender>זכר</Gender>
+    <dob>2004--09-09</dob>
+    <age>15</age>
+  </adminUser>
+  <adminUser>
+    <username>Admin123</username>
+    <userPassword>Admin123</userPassword>
+    <firstName>עמית</firstName>
+    <lastName>קרן</lastName>
+    <email>amitkeren99@gmail.com</email>
+    <phoneNum>0507711345</phoneNum>
+    <homeAddress>עודד 25 רמת חן רמת גן</homeAddress>
+    <Gender>זכר</Gender>
+    <dob>2004--09-09</dob>
+    <age>15</age>
+  </adminUser>
+  <adminUser>
+    <username>adminUser123</username>
+    <userPassword>adminPass123</userPassword>
+    <firstName>עמית</firstName>
+    <lastName>קרן</lastName>
+    <email>amitkeren999@gmail.com</email>
+    <phoneNum>0507711345</phoneNum>
+    <homeAddress>עודד 25 רמת חן רמת גן</homeAddress>
+    <Gender>זכר</Gender>
+    <dob>2004--09-09</dob>
+    <age>15</age>
+  </adminUser>
+</admins>
