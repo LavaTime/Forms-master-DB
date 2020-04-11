@@ -423,12 +423,12 @@ class MyScene extends Phaser.Scene {
         this.physics.add.collider(weapons, this.platforms);
 
         //  Checks to see if the player overlaps with any of the weapons, ammo packs or the bullets if he does call the overlap function, and give the overlap function the hitted targets as parameters.
-        this.physics.add.overlap(this.player1.Container, this.ammo, this.overlap, null, this);
-        this.physics.add.overlap(this.player2.Container, this.ammo, this.overlap, null, this);
-        this.physics.add.overlap(this.player1.Container, this.weapons, this.overlap, null, this);
-        this.physics.add.overlap(this.player2.Container, this.weapons, this.overlap, null, this);
-        this.physics.add.overlap(this.player1.Container, this.shots, this.overlap, null, this);
-        this.physics.add.overlap(this.player2.Container, this.shots, this.overlap, null, this);
+        this.physics.add.overlap(player1.Container, this.ammo, this.overlap, null, this);
+        this.physics.add.overlap(player2.Container, this.ammo, this.overlap, null, this);
+        this.physics.add.overlap(player1.Container, this.weapons, this.overlap, null, this);
+        this.physics.add.overlap(player2.Container, this.weapons, this.overlap, null, this);
+        this.physics.add.overlap(player1.Container, this.shots, this.overlap, null, this);
+        this.physics.add.overlap(player2.Container, this.shots, this.overlap, null, this);
     }
     update() {
         // The main loop for the game
