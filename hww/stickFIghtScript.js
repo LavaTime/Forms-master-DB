@@ -121,19 +121,26 @@ class MyScene extends Phaser.Scene {
 
         });
 
-        //enable physics for the player container
+        //enable physics for the player body
+        this.physics.world.enable(player1.Body);
+        this.physics.world.enable(player2.Body);
         this.physics.world.enable(player1.Container);
         this.physics.world.enable(player2.Container);
+        this.physics.world.enable(shots);
+        this.physics.world.enable(weapons);
+        this.physics.world.enable(player1.Handheld);
+        this.physics.world.enable(player2.Handheld);
         //add to the container all of the parts
         /*player1.add(body1);
         player1.add(handheld1);
         player2.add(body2);
         player2.add(handheld2); */
+
         //  Player physics properties. Give the little guy a slight bounce.
-        player1.Container.body.setBounce(0.2);
-        player1.Container.body.setCollideWorldBounds(true);
-        player2.Container.body.setBounce(0.2);
-        player2.Container.body.setCollideWorldBounds(true);
+        player1.Body.body.setBounce(0.2);
+        player1.Body.body.setCollideWorldBounds(true);
+        player2.Body.body.setBounce(0.2);
+        player2.Body.body.setCollideWorldBounds(true);
 
         //  Our player animations, turning, walking left and walking right.
         this.anims.create({
@@ -172,13 +179,13 @@ class MyScene extends Phaser.Scene {
         this.KEYH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         // arrowUp key for player 1 (JUMP)
         this.input.keyboard.on('keydown_UP', function (event) {
-            if (player1.Container.body.touching.down) {
-                player1.Container.body.setVelocityY(-340);
+            if (player1.Body.body.touching.down) {
+                player1.Body.body.setVelocityY(-340);
             }
         });
         // arrowRight key for player 1 (RIGHT)
         this.input.keyboard.on('keydown_RIGHT', function (event) {
-            player1.Container.body.setVelocityX(300);
+            player1.Body.body.setVelocityX(300);
             if (player1.Handheld.flipX) {
                 player1.Handheld.flipX = false;
                 player1.Handheld.x *= -1;
@@ -187,7 +194,7 @@ class MyScene extends Phaser.Scene {
         });
         // arrowLeft key for player 1 (LEFT)
         this.input.keyboard.on('keydown_LEFT', function (event) {
-            player1.Container.body.setVelocityX(-300);
+            player1.Body.body.setVelocityX(-300);
             if (!player1.Handheld.flipX) {
                 player1.Handheld.flipX = true;
                 player1.Handheld.x *= -1;
@@ -296,7 +303,7 @@ class MyScene extends Phaser.Scene {
 
         this.input.on('pointerdown', function (pointer) {
             if (pointer.leftButtonDown()) {
-                if (player2,ammo > 0) {
+                if (player2.ammo > 0) {
                     if (player2.Handheld.texture.key == 'pistol1') {
                         if (!player2.Handheld.flipX) {
                             player2.Handheld.flipX = true;
@@ -339,13 +346,13 @@ class MyScene extends Phaser.Scene {
 
         // W key for player 2 (JUMP)
         this.input.keyboard.on('keydown_W', function (event) {
-            if (player2.Container.body.touching.down) {
-                player2.Container.body.setVelocityY(-340);
+            if (player2.Body.body.touching.down) {
+                player2.Body.body.setVelocityY(-340);
             }
         });
         // D key for player 2 (RIGHT)
         this.input.keyboard.on('keydown_D', function (event) {
-            player2.Container.body.setVelocityX(160);
+            player2.Body.body.setVelocityX(160);
             if (player2.Handheld.flipX) {
                 player2.Handheld.flipX = false;
                 player2.Handheld.x *= -1;
@@ -354,7 +361,7 @@ class MyScene extends Phaser.Scene {
         });
         // A ket for player 2 (LEFT)
         this.input.keyboard.on('keydown_A', function (event) {
-            player2.Container.body.setVelocityX(-160);
+            player2.Body.body.setVelocityX(-160);
             if (!player2.Handheld.flipX) {
                 player2.Handheld.flipX = true;
                 player2.Handheld.x *= -1;
@@ -415,20 +422,20 @@ class MyScene extends Phaser.Scene {
 
         //  Collide the player and the other player and with the platforms (and deflect each other when hit)
 
-        this.physics.add.collider(player1.Container, this.platforms);
-        this.physics.add.collider(player2.Container, this.platforms);
-        this.physics.add.collider(player1.Container, player2.Container);
+        this.physics.add.collider(player1.Body, this.platforms);
+        this.physics.add.collider(player2.Body, this.platforms);
+        this.physics.add.collider(player1.Body, player2.Body);
         this.physics.add.collider(ammo, this.platforms);
         this.physics.add.collider(bombs, this.platforms);
         this.physics.add.collider(weapons, this.platforms);
 
         //  Checks to see if the player overlaps with any of the weapons, ammo packs or the bullets if he does call the overlap function, and give the overlap function the hitted targets as parameters.
-        this.physics.add.overlap(player1.Container, this.ammo, this.overlap, null, this);
-        this.physics.add.overlap(player2.Container, this.ammo, this.overlap, null, this);
-        this.physics.add.overlap(player1.Container, this.weapons, this.overlap, null, this);
-        this.physics.add.overlap(player2.Container, this.weapons, this.overlap, null, this);
-        this.physics.add.overlap(player1.Container, this.shots, this.overlap, null, this);
-        this.physics.add.overlap(player2.Container, this.shots, this.overlap, null, this);
+        this.physics.add.overlap(player1.Body, this.ammo, this.overlap, null, this);
+        this.physics.add.overlap(player2.Body, this.ammo, this.overlap, null, this);
+        this.physics.add.overlap(player1.Body, this.weapons, this.overlap, null, this);
+        this.physics.add.overlap(player2.Body, this.weapons, this.overlap, null, this);
+        this.physics.add.overlap(player1.Body, this.shots, this.overlap, null, this);
+        this.physics.add.overlap(player2.Body, this.shots, this.overlap, null, this);
     }
     update() {
         // The main loop for the game
@@ -448,13 +455,13 @@ class MyScene extends Phaser.Scene {
         // and if yes set their velocity to 0 and play the turn animation(idle animation)
 
         if (this.keyUP.isUp && this.keyRIGHT.isUp && this.keyLEFT.isUp) {
-            player1.Container.body.setVelocityX(0);
+            player1.Body.body.setVelocityX(0);
 
             player1.Body.anims.play('turn');
         }
 
         if (this.keyW.isUp && this.keyD.isUp && this.keyA.isUp) {
-            player2.Container.body.setVelocityX(0);
+            player2.Body.body.setVelocityX(0);
             player2.Body.anims.play('turn');
         }
     }
@@ -475,7 +482,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     audio: {
@@ -504,7 +511,7 @@ function overlap(player, obj) {
 
     obj.disableBody(true, true);
     // Check for each of the texture keys to know what to do
-    if (player == player1.Container) {
+    if (player == player1.Body) {
         if (obj.texture.key == 'ammoBox') {
             player1.ammo += 5;
             p1AmmoText.setText('P1 ammo: ' + player1.ammo);
