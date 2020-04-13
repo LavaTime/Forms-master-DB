@@ -9,6 +9,7 @@
 // assualt rifle: 0.1sec delay, damage: 100/5 (5 shots to kill)
 // sniper rifle: 1sec delay, damage: 90 (2 shots to kill but kills with any other gun)
 
+var players = [];
 
 class Player {
     constructor(id, startX, scene) {
@@ -25,6 +26,7 @@ class Player {
         this.autoFire = false;
         this.autoFireRight = true;
         this.AmmoText = null;
+        players.push(this);
     }
 } 
 
@@ -71,7 +73,7 @@ class MyScene extends Phaser.Scene {
         this.add.image(400, 300, 'sky');
         this.add.image(1200, 300, 'sky');
 
-        //  The platforms group contains the ground and the 2 ledges we can jump on
+        //  The platforms group contains the ground and the ledges we can jump on
         platforms = this.physics.add.staticGroup();
 
         //  Here we create the ground.
@@ -99,18 +101,13 @@ class MyScene extends Phaser.Scene {
         });
 
         //enable physics for the player container
-        this.physics.world.enable(player1.Container);
-        this.physics.world.enable(player2.Container);
-        //add to the container all of the parts
-        player1.Container.add(player1.Body);
-        player1.Container.add(player1.Handheld);
-        player2.Container.add(player2.Body);
-        player2.Container.add(player2.Handheld);
-        //  Player physics properties. Give the little guy a slight bounce.
-        player1.Container.body.setBounce(0.2);
-        player1.Container.body.setCollideWorldBounds(true);
-        player2.Container.body.setBounce(0.2);
-        player2.Container.body.setCollideWorldBounds(true);
+        for (var i = 0; i < players.length; i++) {
+            this.physics.world.enable(players[i].Container);
+            players[i].Container.add(players[i].Body);
+            players[i].Container.add(players[i].Handheld);
+            players[i].Container.body.setBounce(0.2);
+            players[i].Container.body.setCollideWorldBounds(true);
+        }
 
         //  Our player animations, turning, walking left and walking right.
         this.anims.create({
@@ -138,6 +135,7 @@ class MyScene extends Phaser.Scene {
         this.input.mouse.disableContextMenu();
 
         // Keyboard input
+        // TODO: Change all of the following keys to const
         cursors = this.input.keyboard.createCursorKeys();
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -149,229 +147,69 @@ class MyScene extends Phaser.Scene {
         this.KEYH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         // arrowUp key for player 1 (JUMP)
         this.input.keyboard.on('keydown_UP', function (event) {
-            if (player1.Container.body.touching.down) {
-                player1.Container.body.setVelocityY(-340);
-            }
+            movePlayer(player1, "up");
         });
         // arrowRight key for player 1 (RIGHT)
         this.input.keyboard.on('keydown_RIGHT', function (event) {
-            player1.Container.body.setVelocityX(300);
-            if (player1.Handheld.flipX) {
-                player1.Handheld.flipX = false;
-                player1.Handheld.x *= -1;
-            }
-            player1.Body.anims.play('right', true);
+            movePlayer(player1, "right");
         });
-        // arrowLeft key for player 1 (LEFT)
+         //arrowLeft key for player 1 (LEFT)
         this.input.keyboard.on('keydown_LEFT', function (event) {
-            player1.Container.body.setVelocityX(-300);
-            if (!player1.Handheld.flipX) {
-                player1.Handheld.flipX = true;
-                player1.Handheld.x *= -1;
-            }
-            player1.Body.anims.play('left', true);
+            movePlayer(player1, "left");
         });
-        // F key for shooting
+        // G key for shooting left
         this.input.keyboard.on('keydown_G', function (event) {
-            if (player1.ammo > 0) {
-                switch (player1.Handheld.texture.key) {
-                    case 'pistol1':
-                        if (!player1.Handheld.flipX) {
-                            player1.Handheld.flipX = true;
-                            player1.Handheld.x *= -1;
-                        }
-                        player1.ammo -= 1;
-                        player1.AmmoText.setText('P1 ammo: ' + player1.ammo);
-                        shots.create(player1.Container.x - 40, player1.Container.y - 7, 'bullet1')
-                            .setScale(0.25)
-                            .setVelocityX(-850)
-                            .setAngle(-90);
-                        break;
-                    case 'assaultRifle1':
-                        if (!player1.Handheld.flipX) {
-                            player1.Handheld.flipX = true;
-                            player1.Handheld.x *= -1;
-                        }
-                        player1.ammo -= 1;
-                        player1.AmmoText.setText('P1 ammo: ' + player1.ammo);
-                        shots.create(player1.Container.x - 40, player1.Container.y - 7, 'bullet2')
-                            .setScale(0.3)
-                            .setVelocityX(-850)
-                            .setAngle(-90);
-                        break;
-                    case 'sniperRifle1':
-                        if (!player1.Handheld.flipX) {
-                            player1.Handheld.flipX = true;
-                            player1.Handheld.x *= -1;
-                        }
-                        player1.ammo -= 1;
-                        player1.AmmoText.setText('P1 ammo: ' + player1.ammo);
-                        shots.create(player1.Container.x - 40, player1.Container.y - 7, 'bullet3')
-                            .setScale(0.4)
-                            .setVelocityX(-850)
-                            .setAngle(-90);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            playerShoot(player1, 'left');
         });
 
         this.input.keyboard.on('keydown_H', function (event) {
-            if (player1.ammo > 0) {
-                switch (player1.Handheld.texture.key) {
-                    case 'pistol1':
-                        if (player1.Handheld.flipX) {
-                            player1.Handheld.flipX = false;
-                            player1.Handheld.x *= -1;
-                        }
-                        player1.ammo -= 1;
-                        player1.AmmoText.setText('P1 ammo: ' + player1.ammo);
-                        shots.create(player1.Container.x + 40, player1.Container.y - 7, 'bullet1')
-                            .setScale(0.25)
-                            .setVelocityX(850)
-                            .setAngle(-90);
-                        break;
-                    case 'assaultRifle1':
-                        if (player1.Handheld.flipX) {
-                            player1.Handheld.flipX = false;
-                            player1.Handheld.x *= -1;
-                        }
-                        /*
-                        playerOneAmmo -= 1;
-                        p1AmmoText.setText('P1 ammo: ' + playerOneAmmo);
-                        shots.create(player1.x + 40, player1.y - 7, 'bullet2')
-                            .setScale(0.3)
-                            .setVelocityX(850)
-                            .setAngle(-90);*/
-                        player1.autoFire = true;
-                        player1.autoFireRight = true;
-                        break;
-                    case 'sniperRifle1':
-                        if (player1.Handheld.flipX) {
-                            player1.Handheld.flipX = false;
-                            player1.Handheld.x *= -1;
-                        }
-                        player1.ammo -= 1;
-                        player1.AmmoText.setText('P1 ammo: ' + player1.ammo);
-                        shots.create(player1.Container.x + 40, player1.Container.y - 7, 'bullet3')
-                            .setScale(0.4)
-                            .setVelocityX(850)
-                            .setAngle(-90);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            playerShoot(player1, 'right');
         });
 
+
+        // UNDONE: Make autofire for the assault rifle
         //setInterval(function () {
         //  if 
         //}, 100);
 
+
+        // Check if one of the mouse buttons is down, and then which one is pressed down
         this.input.on('pointerdown', function (pointer) {
             if (pointer.leftButtonDown()) {
-                if (player2.ammo > 0) {
-                    if (player2.Handheld.texture.key == 'pistol1') {
-                        if (!player2.Handheld.flipX) {
-                            player2.Handheld.flipX = true;
-                            player2.Handheld.x *= -1;
-                        }
-                        player2.ammo -= 1;
-                        player2.AmmoText.setText('P2 ammo: ' + player2.ammo);
-                        shots.create(player2.Container.x - 40, player2.Container.y - 7, 'bullet1')
-                            .setScale(0.25)
-                            .setVelocityX(-850)
-                            .setAngle(90);
-                    }
-                }
+                playerShoot(player2, 'left');
             }
             else if (pointer.rightButtonDown()) {
-                if (player2.ammo > 0) {
-                    if (player2.Handheld.texture.key == 'pistol1') {
-                        if (player2.Handheld.flipX) {
-                            player2.Handheld.flipX = false;
-                            player2.Handheld.x *= -1;
-                        }
-                        player2.ammo -= 1;
-                        player2.AmmoText.setText('P2 ammo: ' + player2.ammo);
-                        shots.create(player2.Container.x + 27, player2.Container.y - 7, 'bullet1')
-                            .setScale(0.25)
-                            .setVelocityX(850)
-                            .setAngle(90);
-                    }
-                }
+                playerShoot(player2, 'right');
             }
         }, this);
 
 
 
-
-        //        ADD STOP ANIMATION
-
-
-
-
         // W key for player 2 (JUMP)
         this.input.keyboard.on('keydown_W', function (event) {
-            if (player2.Container.body.touching.down) {
-                player2.Container.body.setVelocityY(-340);
-            }
+            movePlayer(player2, "up");
         });
         // D key for player 2 (RIGHT)
         this.input.keyboard.on('keydown_D', function (event) {
-            player2.Container.body.setVelocityX(160);
-            if (player2.Handheld.flipX) {
-                player2.Handheld.flipX = false;
-                player2.Handheld.x *= -1;
-            }
-            player2.Body.anims.play('right', true);
+            movePlayer(player2, "right");
         });
         // A ket for player 2 (LEFT)
         this.input.keyboard.on('keydown_A', function (event) {
-            player2.Container.body.setVelocityX(-160);
-            if (!player2.Handheld.flipX) {
-                player2.Handheld.flipX = true;
-                player2.Handheld.x *= -1;
-            }
-            player2.Body.anims.play('left', true);
+            movePlayer(player2, "left");
         });
 
-        //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+        //  set a physics group of ammo packs to collect, 6 in total, evenly spaced 140 pixels apart along the x axis
         ammo = this.physics.add.group({
             key: 'ammoBox',
             repeat: 5,
             setXY: { x: 12, y: 0, stepX: 140 }
         });
 
-        setInterval(function () {
-            var spawnObject = RndRange(0, 100);
-            if (spawnObject < 34) {
-                var chooseObject = RndRange(0, 4);
-                var objectX = RndRange(0, 1281);
-                switch (chooseObject) {
-                    case 0:
-                        weapons.create(objectX, 0, 'pistol1')
-                            .setScale(0.25);
-                        break;
-                    case 1:
-                        weapons.create(objectX, 0, 'assaultRifle1')
-                            .setScale(0.17);
-                        break;
-                    case 2:
-                        weapons.create(objectX, 0, 'sniperRifle1')
-                            .setScale(0.17);
-                        break;
-                    case 3:
-                        weapons.create(objectX, 0, 'grenade1')
-                            .setScale(0.2);;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }, 1000);
+        // set an Interval function for the weapon random spawning
 
+        setInterval(weaponSpawn, 1000);
+
+        // Iterate at every ammo pack now screen (should be all of them since it's after spawning them) and change there scale and bounce a little bit
         ammo.children.iterate(function (child) {
 
             //  Give each ammo pack a slightly different bounce
@@ -380,37 +218,43 @@ class MyScene extends Phaser.Scene {
 
         });
 
+
+
+        // UNUSED: 
         bombs = this.physics.add.group();
 
-        //  The score
+
+
+
+        //  The score counters
         player1.AmmoText = this.add.text(16, 16, 'P1 ammo: 0', { fontSize: '32px', fill: '#000' });
         player2.AmmoText = this.add.text(1060, 16, 'P2 ammo: 0', { fontSize: '32px', fill: '#000' });
 
-        //  Collide the player and the stars with the platforms
-        this.physics.add.collider(player1.Container, platforms);
-        this.physics.add.collider(player2.Container, platforms);
+        //  Collide the player, ammo packs, bullets and weapons with the platforms
         this.physics.add.collider(player1.Container, player2.Container);
         this.physics.add.collider(ammo, platforms);
-        //this.physics.add.collider(pistol1s, platforms);
         this.physics.add.collider(bombs, platforms);
         this.physics.add.collider(weapons, platforms);
-
-        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-        this.physics.add.overlap(player1.Container, ammo, overlap, null, this);
-        this.physics.add.overlap(player2.Container, ammo, overlap, null, this);
-        this.physics.add.overlap(player1.Container, weapons, overlap, null, this);
-        this.physics.add.overlap(player2.Container, weapons, overlap, null, this);
-        //this.physics.add.overlap(player1, pistol1s, overlap, null, this);
-        //this.physics.add.overlap(player2, pistol1s, overlap, null, this);
-        this.physics.add.overlap(player1.Container, shots, overlap, null, this);
-        this.physics.add.overlap(player2.Container, shots, overlap, null, this);
+        this.physics.add.collider(shots, platforms);
+        // The colliders and overlaps that can be shortened using a for loop
+        for (var i = 0; i < players.length; i++) {
+            this.physics.add.collider(players[i].Container, platforms);
+            //  Checks to see if one of the players overlaps with any of the items, if they does call the overlap function
+            this.physics.add.overlap(players[i].Container, ammo, overlap, null, this);
+            this.physics.add.overlap(players[i].Container, weapons, overlap, null, this);
+            this.physics.add.overlap(players[i].Container, shots, overlap, null, this);
+        }
+        //  Checks to see if one of the players overlaps with any of the items, if they does call the overlap function
     }
     update() {
+        // check if the game is over
         if (gameOver) {
             return;
         }
+        // update the pointer details
         pointer = this.input.activePointer;
 
+        // check to see if one of the players is idling, if yes stop his walking and it's animation
         if (this.keyUP.isUp && this.keyRIGHT.isUp && this.keyLEFT.isUp) {
             player1.Container.body.setVelocityX(0);
 
@@ -426,7 +270,7 @@ class MyScene extends Phaser.Scene {
 
 // Set the config for the Phaser game
 // type => which engine to use, WEBGL or Canvas, will use WEBGL if possible, if not reroute to canvas
-// width & height => sets the width and height of the screen
+// width & height => sets the width and height of the screen. The weird resolution is a part of an accident but it looks beautiful like that it has been left this way
 // scene => which scene to display at the start
 // physics => select if and which physics engine I would like to use (in this case Arcade physics), and some selections as the gravity
 // audio => settings for the audio rendering of the game
@@ -434,7 +278,7 @@ class MyScene extends Phaser.Scene {
 var config = {
     type: Phaser.AUTO,
     width: 1280,
-    height: 720,
+    height: 600,
     scene: MyScene,
     physics: {
         default: 'arcade',
@@ -444,13 +288,131 @@ var config = {
         }
     },
     audio: {
-        disableWebAudio: true
+        disableWebAudio: false
     }
 };
 
 // Create the actual game object of Phaser
 
 var game = new Phaser.Game(config);
+
+function playerShoot(player, direction) {
+    var bulletVelocity = 850;
+    var bulletRotation = -90;
+    // check if the player have enough ammo
+    if (player.ammo > 0) {
+
+        // decrement the ammo and update the ammo counter for the player
+        player.ammo--;
+        player.AmmoText.setText('P' + player.ID + ' ammo: ' + player.ammo);
+
+        // check for the weapon to know what distance from the Container, which bullet to shoot and how much to scale the bullet
+        var bulletOffset = [0, 0];
+        var scaleOffset = 1;
+        var bulletTexture = 'bullet1';
+
+        // TODO: change bulletOffset for each of the weapons
+        switch (player.Handheld.texture.key) {
+            case 'pistol1':
+                bulletOffset[0] = 40;
+                bulletOffset[1] = 7;
+                scaleOffset = 0.25;
+                bulletTexture = 'bullet1';
+                break;
+            case 'assaultRifle1':
+                bulletOffset[0] = 40;
+                bulletOffset[1] = 7;
+                scaleOffset = 0.3;
+                bulletTexture = 'bullet2'
+                break;
+            case 'sniperRifle1':
+                bulletOffset[0] = 40;
+                bulletOffset[1] = 7;
+                scaleOffset = 0.4;
+                bulletTexture = 'bullet3'
+                break;
+            default:
+                console.log("Error occured in playerShoot function, unknown weapon recevied in switch!");
+                break;
+        }
+        // check if flipping hand is needed according to the direction
+        if (direction == 'left') {
+            if (!player.Handheld.flipX) {
+                player.Handheld.flipX = true;
+                player.Handheld.x *= -1;
+            }
+            bulletVelocity *= -1;
+        } else {
+            if (player.Handheld.flipX) {
+                player.Handheld.flipX = false
+                player.Handheld.x *= -1;
+            }
+            bulletOffset[0] *= -1;
+            bulletRotation *= -1;
+        }
+        shots.create(player.Container.x - bulletOffset[0], player.Container.y - bulletOffset[1], bulletTexture)
+            .setScale(scaleOffset)
+            .setVelocityX(bulletVelocity)
+            .setAngle(bulletRotation);
+    }
+}
+
+function movePlayer(player, direction) {
+    switch (direction) {
+        case "right":
+            player.Container.body.setVelocityX(300);
+            if (player.Handheld.flipX) {
+                player.Handheld.flipX = false;
+                player.Handheld.x *= -1;
+            }
+            player.Body.anims.play('right', true);
+            break;
+        case "left":
+            player.Container.body.setVelocityX(-300);
+            if (!player.Handheld.flipX) {
+                player.Handheld.flipX = true;
+                player.Handheld.x *= -1;
+            }
+            player.Body.anims.play('left', true);
+            break;
+        case "up":
+            if (player.Container.body.touching.down) {
+                player.Container.body.setVelocityY(-340);
+            }
+            break;
+        default:
+            console.log("Error occured got an unknown move direction)");
+            break;
+    }
+}
+
+function weaponSpawn() {
+    var spawnObject = RndRange(0, 100);
+    if (spawnObject < 34) {
+        var chooseObject = RndRange(0, 4);
+        var objectX = RndRange(0, 1281);
+        switch (chooseObject) {
+            case 0:
+                weapons.create(objectX, 0, 'pistol1')
+                    .setScale(0.25);
+                break;
+            case 1:
+                weapons.create(objectX, 0, 'assaultRifle1')
+                    .setScale(0.17);
+                break;
+            case 2:
+                weapons.create(objectX, 0, 'sniperRifle1')
+                    .setScale(0.17);
+                break;
+            case 3:
+                weapons.create(objectX, 0, 'grenade1')
+                    .setScale(0.2);;
+                break;
+            default:
+                break;
+        }
+    }
+}
 
 function overlap(player, obj) {
     obj.disableBody(true, true);
