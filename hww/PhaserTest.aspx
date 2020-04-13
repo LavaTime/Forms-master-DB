@@ -4,7 +4,6 @@
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceholderBody" runat="server">
-
-<script type="text/javascript" src="stickFIghtScript.js"></script>
+    <script type="text/javascript" src="StickFightTheGameScript.js"></script>
 
 </asp:Content>

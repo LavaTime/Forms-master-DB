@@ -141,12 +141,12 @@
     <Content Include="Home.aspx" />
     <Content Include="HtmlTest.html" />
     <Content Include="Logout.aspx" />
+    <Content Include="StickFightTheGameScript.js" />
     <Content Include="phaserActualStupidFile.js" />
     <Content Include="PhaserTest.aspx" />
     <Content Include="pong.aspx" />
     <Content Include="pongCanvas.js" />
     <Content Include="showAllUsers.aspx" />
-    <Content Include="stickFIghtScript.js" />
     <Content Include="Assets\StickManSprite.png" />
     <Content Include="styleSheets\homeStyleSheet.css" />
     <Content Include="Login.aspx" />
