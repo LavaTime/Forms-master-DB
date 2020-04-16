@@ -124,7 +124,7 @@ namespace hww
                     else
                     {
                         var xmlFile = XDocument.Load(MapPath("adminTable.xml"));
-                        var userNode = xmlFile.Descendants("CD").FirstOrDefault(cd => cd.Element("username").Value == username);
+                        var userNode = xmlFile.Descendants("adminUser").FirstOrDefault(adminUser => adminUser.Element("username").Value == username);
                         userNode.SetElementValue("userPassword", password);
                         userNode.SetElementValue("firstName", firstName);
                         userNode.SetElementValue("lastName", lastName);

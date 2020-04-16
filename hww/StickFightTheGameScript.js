@@ -15,9 +15,11 @@ class Player {
     constructor(id, startX, scene) {
         this.ID = id;
         this.Container = scene.add.container(startX, 450);
-        this.Container.setSize(20 * 1.3, 49 * 1.3);
+        this.scale = 1.5;
+        this.Container.setSize(20 * 0.9 * this.scale, 49 * 0.9 * this.scale);
         this.Body = scene.add.sprite(0, 0, 'dude');
-        this.Body.setSize(1.3);
+        this.Body.setScale(this.scale);
+        this.Body.setSize(this.scale * 0.9, this.scale);
         this.Handheld = scene.add.image(20, 0)
         this.Container.add(this.Body);
         this.Container.add(this.Handheld);
@@ -47,6 +49,7 @@ var keyLEFT;
 var gameOver = false;
 var shots;
 var pointer;
+var music;
 
 class MyScene extends Phaser.Scene {
     preload() {
@@ -66,9 +69,23 @@ class MyScene extends Phaser.Scene {
         this.load.spritesheet('dude', 'Assets/StickManSprite.png', { frameWidth: 32, frameHeight: 64 });
         // Sound files and music loading
         this.load.audio('victory', 'Assets/SFX/Athena_-_Victory.ogg');
+        this.load.audio('music1', 'Assets/music/Stuck_in_the_Middle.ogg');
         // TODO: add sound files and sound playing for each of the actions in the game.
     }
     create() {
+        // add some music to the game
+        var musicConfig = {
+            mute: false,
+            volume: 0.01,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        music = this.sound.add('music1', musicConfig);
+        music.play();
+
         //  A simple background for the game
         this.add.image(400, 300, 'sky');
         this.add.image(1200, 300, 'sky');
@@ -143,8 +160,8 @@ class MyScene extends Phaser.Scene {
         this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.KEYG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
-        this.KEYH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
+        this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+        this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         // arrowUp key for player 1 (JUMP)
         this.input.keyboard.on('keydown_UP', function (event) {
             movePlayer(player1, "up");
@@ -265,6 +282,64 @@ class MyScene extends Phaser.Scene {
             player2.Container.body.setVelocityX(0);
             player2.Body.anims.play('turn');
         }
+        if (player1.Handheld.texture.key == 'assaultRifle1' && player1.ammo > 0 && (this.keyG.isDown || this.keyH.isDown)) {
+            var bulletVelocity = 850;
+            var bulletRotation = -90;
+            var bulletOffset = [40, 7];
+            var scaleOffset = 0.3;
+            var bulletTexture = 'bullet2';
+            if (this.keyG.isDown && this.keyH.isUp) {
+                if (!player1.Handheld.flipX) {
+                    player1.Handheld.flipX = true;
+                    player1.Handheld.x *= -1;
+                }
+                bulletVelocity *= -1;
+            } else if (this.keyH.isDown && this.keyG.isUp) {
+                if (player1.Handheld.flipX) {
+                    player1.Handheld.flipX = false
+                    player1.Handheld.x *= -1;
+                }
+                bulletOffset[0] *= -1;
+                bulletRotation *= -1;
+            }
+            // decrement the ammo and update the ammo counter for the player
+            player1.ammo--;
+            player1.AmmoText.setText('P' + player1.ID + ' ammo: ' + player1.ammo);
+            // create the bullet according to all of the properties
+            shots.create(player1.Container.x - bulletOffset[0], player1.Container.y - bulletOffset[1], bulletTexture)
+                .setScale(scaleOffset)
+                .setVelocityX(bulletVelocity)
+                .setAngle(bulletRotation);
+        }
+        if (player2.Handheld.texture.key == 'assaultRifle1' && player2.ammo > 0 && (pointer.leftButtonDown() || pointer.rightButtonDown())) {
+            var bulletVelocity = 850;
+            var bulletRotation = -90;
+            var bulletOffset = [40, 7];
+            var scaleOffset = 0.3;
+            var bulletTexture = 'bullet2';
+            if (!pointer.rightButtonDown() && pointer.leftButtonDown()) {
+                if (!player2.Handheld.flipX) {
+                    player2.Handheld.flipX = true;
+                    player2.Handheld.x *= -1;
+                }
+                bulletVelocity *= -1;
+            } else if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
+                if (player2.Handheld.flipX) {
+                    player2.Handheld.flipX = false
+                    player2.Handheld.x *= -1;
+                }
+                bulletOffset[0] *= -1;
+                bulletRotation *= -1;
+            }
+            // decrement the ammo and update the ammo counter for the player
+            player2.ammo--;
+            player2.AmmoText.setText('P' + player2.ID + ' ammo: ' + player2.ammo);
+            // create the bullet according to all of the properties
+            shots.create(player2.Container.x - bulletOffset[0], player2.Container.y - bulletOffset[1], bulletTexture)
+                .setScale(scaleOffset)
+                .setVelocityX(bulletVelocity)
+                .setAngle(bulletRotation);
+        }
     }
 }
 
@@ -288,7 +363,7 @@ var config = {
         }
     },
     audio: {
-        disableWebAudio: false
+        disableWebAudio: true
     }
 };
 
@@ -301,10 +376,6 @@ function playerShoot(player, direction) {
     var bulletRotation = -90;
     // check if the player have enough ammo
     if (player.ammo > 0) {
-
-        // decrement the ammo and update the ammo counter for the player
-        player.ammo--;
-        player.AmmoText.setText('P' + player.ID + ' ammo: ' + player.ammo);
 
         // check for the weapon to know what distance from the Container, which bullet to shoot and how much to scale the bullet
         var bulletOffset = [0, 0];
@@ -350,10 +421,16 @@ function playerShoot(player, direction) {
             bulletOffset[0] *= -1;
             bulletRotation *= -1;
         }
-        shots.create(player.Container.x - bulletOffset[0], player.Container.y - bulletOffset[1], bulletTexture)
-            .setScale(scaleOffset)
-            .setVelocityX(bulletVelocity)
-            .setAngle(bulletRotation);
+        if (player.Handheld.texture.key != 'assaultRifle1') {
+            // decrement the ammo and update the ammo counter for the player
+            player.ammo--;
+            player.AmmoText.setText('P' + player.ID + ' ammo: ' + player.ammo);
+            // create the bullet according to all of the properties
+            shots.create(player.Container.x - bulletOffset[0], player.Container.y - bulletOffset[1], bulletTexture)
+                .setScale(scaleOffset)
+                .setVelocityX(bulletVelocity)
+                .setAngle(bulletRotation)
+        }
     }
 }
 
@@ -427,7 +504,35 @@ function overlap(player, obj) {
             player1.Handheld.setTexture('pistol1');
             player1.Handheld.setScale(0.25)
         } else if (obj.texture.key == 'bullet1') {
-            hp -= 100 / 7;
+            player1.hp -= 100 / 7;
+            if (player1.hp < 0) {
+                this.physics.pause();
+                player2.Body.setTint(0xff0000);
+                player1.Body.setTint(0xff0000);
+                player2.Body.anims.play('turn');
+                player1.Body.anims.play('turn');
+
+                var victorySFX = this.sound.add('victory');
+                victorySFX.play();
+                // UNDONE: add image when game is over
+                gameOver = true;
+            }
+        } else if (obj.texture.key == 'bullet2') {
+            player1.hp -= 20;
+            if (player1.hp < 0) {
+                this.physics.pause();
+                player2.Body.setTint(0xff0000);
+                player1.Body.setTint(0xff0000);
+                player2.Body.anims.play('turn');
+                player1.Body.anims.play('turn');
+
+                var victorySFX = this.sound.add('victory');
+                victorySFX.play();
+                // UNDONE: add image when game is over
+                gameOver = true;
+            }
+        } else if (obj.texture.key == 'bullet3') {
+            player1.hp -= 99;
             if (player1.hp < 0) {
                 this.physics.pause();
                 player2.Body.setTint(0xff0000);
@@ -474,6 +579,34 @@ function overlap(player, obj) {
                 // UNDONE: add image when game is over
                 gameOver = true;
             }
+        } else if (obj.texture.key == 'bullet2') {
+            player2.hp -= 20;
+            if (player2.hp < 0) {
+                this.physics.pause();
+                player2.Body.setTint(0xff0000);
+                player1.Body.setTint(0xff0000);
+                player2.Body.anims.play('turn');
+                player1.Body.anims.play('turn');
+
+                var victorySFX = this.sound.add('victory');
+                victorySFX.play();
+                // UNDONE: add image when game is over
+                gameOver = true;
+            }
+        } else if (obj.texture.key == 'bullet3') {
+                player2.hp -= 99;
+            if (player2.hp < 0) {
+                this.physics.pause();
+                player2.Body.setTint(0xff0000);
+                player1.Body.setTint(0xff0000);
+                player2.Body.anims.play('turn');
+                player1.Body.anims.play('turn');
+
+                var victorySFX = this.sound.add('victory');
+                victorySFX.play();
+                // UNDONE: add image when game is over
+                gameOver = true;
+            }
         } else if (obj.texture.key == 'assaultRifle1') {
             player2.ammo += 7;
             player2.AmmoText.setText('P2 ammo: ' + player2.ammo);
@@ -504,6 +637,33 @@ function overlap(player, obj) {
         bomb.setCollideWorldBounds(true);
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         bomb.allowGravity = false;
+
+    }
+}
+
+function cheat(player, cheatCode) {
+    switch (cheatCode) {
+        case 'ammo':
+            player.ammo += 10000;
+            player.AmmoText.setText('P' + player.ID + ' ammo: ' + player.ammo);
+            break;
+        case 'assaultRifle1':
+            player.Handheld.setTexture('assaultRifle1');
+            player.Handheld.setScale(0.17);
+            break;
+        case 'pistol1':
+            player.Handheld.setTexture('pistol1');
+            player.Handheld.setScale(0.25)
+            break;
+        case 'sniperRifle1':
+            player.Handheld.setTexture('sniperRifle1');
+            player.Handheld.setScale(0.17);
+            break;
+        case 'grenade':
+            console.log("Grenade cheat has been called");
+            break;
+        default:
+            console.log("cheat not found!");
 
     }
 }

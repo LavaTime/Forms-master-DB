@@ -126,6 +126,7 @@
     <Content Include="Assets\Guns\png\smg2.png" />
     <Content Include="Assets\Guns\png\sniper.png" />
     <Content Include="Assets\Guns\png\sniper2.png" />
+    <Content Include="Assets\music\Stuck_in_the_Middle.ogg" />
     <Content Include="Assets\platform.png" />
     <Content Include="Assets\SFX\Athena_-_Victory.ogg" />
     <Content Include="Assets\sky.png" />
@@ -264,9 +265,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\music\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
