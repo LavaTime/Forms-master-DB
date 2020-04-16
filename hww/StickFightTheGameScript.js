@@ -8,6 +8,7 @@
 // pistol: 0.5sec delay, damage: 100/7 (7 shots to kill)
 // assualt rifle: 0.1sec delay, damage: 100/5 (5 shots to kill)
 // sniper rifle: 1sec delay, damage: 90 (2 shots to kill but kills with any other gun)
+// TODO: platforms too bouncy
 
 var players = [];
 
@@ -51,7 +52,48 @@ var shots;
 var pointer;
 var music;
 
-class MyScene extends Phaser.Scene {
+class menuScene extends Phaser.Scene {
+    constructor()
+    {
+        super({ key: 'menuScene' });
+    }
+    preload() {
+        this.load.image('background', 'Assets/background.jpg');
+        this.load.image('startSelected', 'Assets/startSelected.png');
+        this.load.image('startNotSelected', 'Assets/startNotSelected.png');
+        this.load.image('aboutNotSelected', 'Assets/aboutNotSelected.png');
+        this.load.image('aboutSelected', 'Assets/aboutSelected.png');
+    }
+    create() {
+        this.background = this.add.image(0, 0, 'background');
+        this.startButton = this.add.image(300, 100, 'startSelected').setScale(1.55);
+        this.aboutButton = this.add.image(300, 500, 'aboutNotSelected');
+        this.input.manager.enabled = true;
+        this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    }
+    update() {
+        if (this.startButton.texture.key == 'startSelected' && this.keyDown.isDown && !this.keyUp.isDown) {
+            this.startButton.setTexture('startNotSelected');
+            this.aboutButton.setTexture('aboutSelected');
+            console.log('aboutSelected');
+        } else if (this.startButton.texture.key == 'startNotSelected' && this.keyUp.isDown && !this.keyDown.isDown) {
+            this.startButton.setTexture('startSelected');
+            this.aboutButton.setTexture('aboutNotSelected');
+            console.log('startSelected');
+        }
+        if (this.startButton.texture.key == 'startSelected' && this.keyEnter.isDown) {
+            this.scene.start('gameScene');
+        }
+    }
+}
+
+class gameScene extends Phaser.Scene {
+    constructor()
+    {
+        super({ key: 'gameScene' });
+    }
     preload() {
         // Image and sprite loading
         this.load.image('sky', 'Assets/sky.png');
@@ -73,7 +115,6 @@ class MyScene extends Phaser.Scene {
         // TODO: add sound files and sound playing for each of the actions in the game.
     }
     create() {
-        // add some music to the game
         var musicConfig = {
             mute: false,
             volume: 0.01,
@@ -262,11 +303,13 @@ class MyScene extends Phaser.Scene {
             this.physics.add.overlap(players[i].Container, shots, overlap, null, this);
         }
         //  Checks to see if one of the players overlaps with any of the items, if they does call the overlap function
+
+        bypassThisForAutoMode(this.keyG, this.keyH, pointer);
     }
     update() {
         // check if the game is over
         if (gameOver) {
-            return;
+            this.scene.start('gameOverScene');
         }
         // update the pointer details
         pointer = this.input.activePointer;
@@ -282,64 +325,25 @@ class MyScene extends Phaser.Scene {
             player2.Container.body.setVelocityX(0);
             player2.Body.anims.play('turn');
         }
-        if (player1.Handheld.texture.key == 'assaultRifle1' && player1.ammo > 0 && (this.keyG.isDown || this.keyH.isDown)) {
-            var bulletVelocity = 850;
-            var bulletRotation = -90;
-            var bulletOffset = [40, 7];
-            var scaleOffset = 0.3;
-            var bulletTexture = 'bullet2';
-            if (this.keyG.isDown && this.keyH.isUp) {
-                if (!player1.Handheld.flipX) {
-                    player1.Handheld.flipX = true;
-                    player1.Handheld.x *= -1;
-                }
-                bulletVelocity *= -1;
-            } else if (this.keyH.isDown && this.keyG.isUp) {
-                if (player1.Handheld.flipX) {
-                    player1.Handheld.flipX = false
-                    player1.Handheld.x *= -1;
-                }
-                bulletOffset[0] *= -1;
-                bulletRotation *= -1;
-            }
-            // decrement the ammo and update the ammo counter for the player
-            player1.ammo--;
-            player1.AmmoText.setText('P' + player1.ID + ' ammo: ' + player1.ammo);
-            // create the bullet according to all of the properties
-            shots.create(player1.Container.x - bulletOffset[0], player1.Container.y - bulletOffset[1], bulletTexture)
-                .setScale(scaleOffset)
-                .setVelocityX(bulletVelocity)
-                .setAngle(bulletRotation);
-        }
-        if (player2.Handheld.texture.key == 'assaultRifle1' && player2.ammo > 0 && (pointer.leftButtonDown() || pointer.rightButtonDown())) {
-            var bulletVelocity = 850;
-            var bulletRotation = -90;
-            var bulletOffset = [40, 7];
-            var scaleOffset = 0.3;
-            var bulletTexture = 'bullet2';
-            if (!pointer.rightButtonDown() && pointer.leftButtonDown()) {
-                if (!player2.Handheld.flipX) {
-                    player2.Handheld.flipX = true;
-                    player2.Handheld.x *= -1;
-                }
-                bulletVelocity *= -1;
-            } else if (pointer.rightButtonDown() && !pointer.leftButtonDown()) {
-                if (player2.Handheld.flipX) {
-                    player2.Handheld.flipX = false
-                    player2.Handheld.x *= -1;
-                }
-                bulletOffset[0] *= -1;
-                bulletRotation *= -1;
-            }
-            // decrement the ammo and update the ammo counter for the player
-            player2.ammo--;
-            player2.AmmoText.setText('P' + player2.ID + ' ammo: ' + player2.ammo);
-            // create the bullet according to all of the properties
-            shots.create(player2.Container.x - bulletOffset[0], player2.Container.y - bulletOffset[1], bulletTexture)
-                .setScale(scaleOffset)
-                .setVelocityX(bulletVelocity)
-                .setAngle(bulletRotation);
-        }
+    }
+}
+
+class gameOverScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'gameOverScene' });
+    }
+    preload() {
+        this.load.image('gameOverBackground', 'Assets/gameOverBackground.jpg');
+    }
+    create() {
+        this.add.image(0, 0, 'gameOverBackground');
+        this.input.manager.enabled = true;
+
+        this.input.once('pointerdown', function () {
+
+            this.scene.start('menuScene');
+
+        }, this);
     }
 }
 
@@ -354,7 +358,7 @@ var config = {
     type: Phaser.AUTO,
     width: 1280,
     height: 600,
-    scene: MyScene,
+    scene: [menuScene, gameScene, gameOverScene],
     physics: {
         default: 'arcade',
         arcade: {
@@ -639,6 +643,71 @@ function overlap(player, obj) {
         bomb.allowGravity = false;
 
     }
+}
+
+function autoMode(keyG, keyH, pointerClick) {
+    if (player1.Handheld.texture.key == 'assaultRifle1' && player1.ammo > 0 && (keyG.isDown || keyH.isDown)) {
+        var bulletVelocity = 850;
+        var bulletRotation = -90;
+        var bulletOffset = [40, 7];
+        var scaleOffset = 0.3;
+        var bulletTexture = 'bullet2';
+        if (keyG.isDown && keyH.isUp) {
+            if (!player1.Handheld.flipX) {
+                player1.Handheld.flipX = true;
+                player1.Handheld.x *= -1;
+            }
+            bulletVelocity *= -1;
+        } else if (keyH.isDown && keyG.isUp) {
+            if (player1.Handheld.flipX) {
+                player1.Handheld.flipX = false
+                player1.Handheld.x *= -1;
+            }
+            bulletOffset[0] *= -1;
+            bulletRotation *= -1;
+        }
+        // decrement the ammo and update the ammo counter for the player
+        player1.ammo--;
+        player1.AmmoText.setText('P' + player1.ID + ' ammo: ' + player1.ammo);
+        // create the bullet according to all of the properties
+        shots.create(player1.Container.x - bulletOffset[0], player1.Container.y - bulletOffset[1], bulletTexture)
+            .setScale(scaleOffset)
+            .setVelocityX(bulletVelocity)
+            .setAngle(bulletRotation);
+    }
+    if (player2.Handheld.texture.key == 'assaultRifle1' && player2.ammo > 0 && (pointer.leftButtonDown() || pointer.rightButtonDown())) {
+        var bulletVelocity = 850;
+        var bulletRotation = -90;
+        var bulletOffset = [40, 7];
+        var scaleOffset = 0.3;
+        var bulletTexture = 'bullet2';
+        if (!pointerClick.rightButtonDown() && pointerClick.leftButtonDown()) {
+            if (!player2.Handheld.flipX) {
+                player2.Handheld.flipX = true;
+                player2.Handheld.x *= -1;
+            }
+            bulletVelocity *= -1;
+        } else if (pointerClick.rightButtonDown() && !pointerClick.leftButtonDown()) {
+            if (player2.Handheld.flipX) {
+                player2.Handheld.flipX = false
+                player2.Handheld.x *= -1;
+            }
+            bulletOffset[0] *= -1;
+            bulletRotation *= -1;
+        }
+        // decrement the ammo and update the ammo counter for the player
+        player2.ammo--;
+        player2.AmmoText.setText('P' + player2.ID + ' ammo: ' + player2.ammo);
+        // create the bullet according to all of the properties
+        shots.create(player2.Container.x - bulletOffset[0], player2.Container.y - bulletOffset[1], bulletTexture)
+            .setScale(scaleOffset)
+            .setVelocityX(bulletVelocity)
+            .setAngle(bulletRotation);
+    }
+}
+
+function bypassThisForAutoMode(keyG, keyH, pointer) {
+    setInterval(function() { autoMode(keyG, keyH, pointer) }, 100);
 }
 
 function cheat(player, cheatCode) {
