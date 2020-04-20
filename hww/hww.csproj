@@ -74,9 +74,13 @@
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\aboutNotSelected %281%29.png" />
     <Content Include="Assets\aboutNotSelected.png" />
+    <Content Include="Assets\aboutSelected %281%29.png" />
     <Content Include="Assets\aboutSelected.png" />
+    <Content Include="Assets\arrowKey.png" />
     <Content Include="Assets\background.jpg" />
+    <Content Include="Assets\background1.jpg" />
     <Content Include="Assets\bomb.png" />
     <Content Include="Assets\dude.png" />
     <Content Include="Assets\gameOverBackground.jpg" />

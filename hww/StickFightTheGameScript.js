@@ -8,7 +8,6 @@
 // pistol: 0.5sec delay, damage: 100/7 (7 shots to kill)
 // assualt rifle: 0.1sec delay, damage: 100/5 (5 shots to kill)
 // sniper rifle: 1sec delay, damage: 90 (2 shots to kill but kills with any other gun)
-// TODO: platforms too bouncy
 
 var players = [];
 
@@ -58,16 +57,17 @@ class menuScene extends Phaser.Scene {
         super({ key: 'menuScene' });
     }
     preload() {
-        this.load.image('background', 'Assets/background.jpg');
+        this.load.image('background', 'Assets/background1.jpg');
         this.load.image('startSelected', 'Assets/startSelected.png');
         this.load.image('startNotSelected', 'Assets/startNotSelected.png');
-        this.load.image('aboutNotSelected', 'Assets/aboutNotSelected.png');
-        this.load.image('aboutSelected', 'Assets/aboutSelected.png');
+        this.load.image('aboutNotSelected', 'Assets/aboutNotSelected (1).png');
+        this.load.image('aboutSelected', 'Assets/aboutSelected (1).png');
+        this.load.image('arrowKeys', 'Assets/arrowKey.png');
     }
     create() {
-        this.background = this.add.image(0, 0, 'background');
-        this.startButton = this.add.image(300, 100, 'startSelected').setScale(1.55);
-        this.aboutButton = this.add.image(300, 500, 'aboutNotSelected');
+        this.background = this.add.image(640, 300, 'background').setScale(2,1.5);
+        this.startButton = this.add.image(640, 100, 'startSelected').setScale(1.55);
+        this.aboutButton = this.add.image(640, 500, 'aboutNotSelected');
         this.input.manager.enabled = true;
         this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -85,6 +85,8 @@ class menuScene extends Phaser.Scene {
         }
         if (this.startButton.texture.key == 'startSelected' && this.keyEnter.isDown) {
             this.scene.start('gameScene');
+        } else if (this.aboutButton.texture.key == 'aboutSelected' && this.keyEnter.isDown) {
+            window.location.href = "Home.aspx";
         }
     }
 }
@@ -193,7 +195,6 @@ class gameScene extends Phaser.Scene {
         this.input.mouse.disableContextMenu();
 
         // Keyboard input
-        // TODO: Change all of the following keys to const
         cursors = this.input.keyboard.createCursorKeys();
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -225,11 +226,7 @@ class gameScene extends Phaser.Scene {
         });
 
 
-        // UNDONE: Make autofire for the assault rifle
-        //setInterval(function () {
-        //  if 
-        //}, 100);
-
+        // UNDONE: Make autofire for the assault rifle - SOLVED
 
         // Check if one of the mouse buttons is down, and then which one is pressed down
         this.input.on('pointerdown', function (pointer) {
@@ -303,7 +300,7 @@ class gameScene extends Phaser.Scene {
             this.physics.add.overlap(players[i].Container, shots, overlap, null, this);
         }
         //  Checks to see if one of the players overlaps with any of the items, if they does call the overlap function
-
+        pointer = this.input.activePointer;
         bypassThisForAutoMode(this.keyG, this.keyH, pointer);
     }
     update() {
@@ -346,6 +343,10 @@ class gameOverScene extends Phaser.Scene {
         }, this);
     }
 }
+// use image in the downloads folder for gameOverScreen.png for the end scene background
+
+
+// TODO: Scenes (menu end screen...)
 
 // Set the config for the Phaser game
 // type => which engine to use, WEBGL or Canvas, will use WEBGL if possible, if not reroute to canvas
@@ -386,23 +387,23 @@ function playerShoot(player, direction) {
         var scaleOffset = 1;
         var bulletTexture = 'bullet1';
 
-        // TODO: change bulletOffset for each of the weapons
+        // TODO: change bulletOffset for each of the weapons - SOLVED
         switch (player.Handheld.texture.key) {
             case 'pistol1':
-                bulletOffset[0] = 40;
+                bulletOffset[0] = 25;
                 bulletOffset[1] = 7;
                 scaleOffset = 0.25;
                 bulletTexture = 'bullet1';
                 break;
             case 'assaultRifle1':
-                bulletOffset[0] = 40;
-                bulletOffset[1] = 7;
+                bulletOffset[0] = 50;
+                bulletOffset[1] = 0;
                 scaleOffset = 0.3;
                 bulletTexture = 'bullet2'
                 break;
             case 'sniperRifle1':
-                bulletOffset[0] = 40;
-                bulletOffset[1] = 7;
+                bulletOffset[0] = 58;
+                bulletOffset[1] = 3;
                 scaleOffset = 0.4;
                 bulletTexture = 'bullet3'
                 break;
@@ -498,6 +499,7 @@ function weaponSpawn() {
 function overlap(player, obj) {
     obj.disableBody(true, true);
     //  Add and update the score
+    // TODO: Make overlap function support OOP - Isn't possible because of how Phaser.overlap works, must work like that.:(
     if (player == player1.Container) {
         if (obj.texture.key == 'ammoBox') {
             player1.ammo += 5;
@@ -518,7 +520,6 @@ function overlap(player, obj) {
 
                 var victorySFX = this.sound.add('victory');
                 victorySFX.play();
-                // UNDONE: add image when game is over
                 gameOver = true;
             }
         } else if (obj.texture.key == 'bullet2') {
@@ -532,7 +533,6 @@ function overlap(player, obj) {
 
                 var victorySFX = this.sound.add('victory');
                 victorySFX.play();
-                // UNDONE: add image when game is over
                 gameOver = true;
             }
         } else if (obj.texture.key == 'bullet3') {
@@ -546,7 +546,6 @@ function overlap(player, obj) {
 
                 var victorySFX = this.sound.add('victory');
                 victorySFX.play();
-                // UNDONE: add image when game is over
                 gameOver = true;
             }
         } else if (obj.texture.key == 'assaultRifle1') {
@@ -580,7 +579,6 @@ function overlap(player, obj) {
 
                 var victorySFX = this.sound.add('victory');
                 victorySFX.play();
-                // UNDONE: add image when game is over
                 gameOver = true;
             }
         } else if (obj.texture.key == 'bullet2') {
@@ -594,7 +592,6 @@ function overlap(player, obj) {
 
                 var victorySFX = this.sound.add('victory');
                 victorySFX.play();
-                // UNDONE: add image when game is over
                 gameOver = true;
             }
         } else if (obj.texture.key == 'bullet3') {
@@ -608,7 +605,6 @@ function overlap(player, obj) {
 
                 var victorySFX = this.sound.add('victory');
                 victorySFX.play();
-                // UNDONE: add image when game is over
                 gameOver = true;
             }
         } else if (obj.texture.key == 'assaultRifle1') {
@@ -625,31 +621,22 @@ function overlap(player, obj) {
     }
 
     if (ammo.countActive(true) === 0) {
-        //  A new batch of stars to collect
+        //  A new batch of ammo packs to collect
         ammo.children.iterate(function (child) {
 
             child.enableBody(true, child.x, 0, true, true);
 
         });
 
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-        for (var i = 0; i < length; i++) {
-
-        }
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
-
     }
 }
 
 function autoMode(keyG, keyH, pointerClick) {
+    // cannot support OOP becuase of key bind differents
     if (player1.Handheld.texture.key == 'assaultRifle1' && player1.ammo > 0 && (keyG.isDown || keyH.isDown)) {
         var bulletVelocity = 850;
         var bulletRotation = -90;
-        var bulletOffset = [40, 7];
+        var bulletOffset = [45, 4];
         var scaleOffset = 0.3;
         var bulletTexture = 'bullet2';
         if (keyG.isDown && keyH.isUp) {
@@ -707,6 +694,7 @@ function autoMode(keyG, keyH, pointerClick) {
 }
 
 function bypassThisForAutoMode(keyG, keyH, pointer) {
+    // A little bit of a cheat to trick the system into passing the protected variables from the class of the scene to the interval function
     setInterval(function() { autoMode(keyG, keyH, pointer) }, 100);
 }
 
@@ -737,4 +725,3 @@ function cheat(player, cheatCode) {
     }
 }
 // UNDONE: make a variable hold the speed for multiple objs  (players, bullets, etc)
-// TODO: Fix players float above the ground
