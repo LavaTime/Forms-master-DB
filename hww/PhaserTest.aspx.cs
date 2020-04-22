@@ -11,7 +11,11 @@ namespace hww
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if ((Session["usernameData"] is null))
+            {
+                Session["CsErr"] = "שגיאה 401 - אינך מורשה להיכנס למשחק אלא אם אתה רשום";
+                Response.Redirect("/ErrorPage.aspx");
+            }
         }
     }
 }
