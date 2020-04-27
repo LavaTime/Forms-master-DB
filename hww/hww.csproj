@@ -74,6 +74,7 @@
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\GHKey.png" />
     <Content Include="Assets\HTMLCSSJS.jpeg" />
     <Content Include="Assets\aboutNotSelected %281%29.png" />
     <Content Include="Assets\aboutNotSelected.png" />
@@ -136,6 +137,7 @@
     <Content Include="Assets\Guns\png\sniper.png" />
     <Content Include="Assets\Guns\png\sniper2.png" />
     <Content Include="Assets\menuBackground.jpg" />
+    <Content Include="Assets\mouse.png" />
     <Content Include="Assets\music\Stuck_in_the_Middle.ogg" />
     <Content Include="Assets\platform.png" />
     <Content Include="Assets\SFX\Athena_-_Victory.ogg" />

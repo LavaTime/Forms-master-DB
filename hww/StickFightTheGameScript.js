@@ -64,20 +64,29 @@ class menuScene extends Phaser.Scene {
         this.load.image('aboutSelected', 'Assets/aboutSelected (1).png');
         this.load.image('arrowKeys', 'Assets/arrowKey.png');
         this.load.image('wasdKeys', 'Assets/wasdKey.png');
+        this.load.image('mouseKey', 'Assets/mouse.png');
+        this.load.image('GHKey', 'Assets/GHKey.png');
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
     create() {
         this.background = this.add.image(640, 300, 'background').setScale(2,1.5);
         this.startButton = this.add.image(640, 100, 'startSelected').setScale(1.55);
         this.aboutButton = this.add.image(640, 500, 'aboutNotSelected');
-        this.arrowKey = this.add.image(100, 20, 'arrowKeys');
+        this.arrowKey = this.add.image(240, 30, 'wasdKeys').setScale(0.5);
+        this.wasdKey = this.add.image(1025, 35, 'arrowKeys');
+        this.mouseKey = this.add.image(220, 95, 'mouseKey').setScale(0.07);
+        this.GHKey = this.add.image(1025, 95, 'GHKey').setScale(0.5);
         var add = this.add;
         WebFont.load({
             google: {
-                families: ['Pixo']
+                families: ['Freckle Face', 'Finger Paint', '"Press Start 2P"']
             },
             active: function () {
-                add.text(20, 20, 'player 2 movement:', { fontFamily: 'Pixo', fontSize: 800, color: '#ffffff' });
+                add.text(16, 35, 'player 2 movement:', { fontFamily: '"Press Start 2P"', fontSize: 10, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+                add.text(16, 100, 'player 2 shooting:', { fontFamily: '"Press Start 2P"', fontSize: 10, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+                add.text(800, 35, 'player 1 movement:', { fontFamily: '"Press Start 2P"', fontSize: 10, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+                add.text(800, 100, 'player 1 shooting:', { fontFamily: '"Press Start 2P"', fontSize: 10, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+                add.text(450, 300, 'use arrows the switch between buttons\nand press enter to choose\nin game when you hold an\nassault rifle hold for auto shoot', { fontFamily: '"Press Start 2P"', fontSize: 10, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
             }
         });
         this.input.manager.enabled = true;

@@ -85,6 +85,11 @@ namespace hww
             }
             if (Request.Form["deleteInfo"] != null)
             {
+                if (Session["isAdmin"].ToString() == "True")
+                {
+                    Session["CsErr"] = "שגיאה לא ניתן למחוק משתמש מנהל";
+                    Response.Redirect("ErrorPage.aspx");
+                }
                 // FIXE deleted message!!!
                 string sqlConString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
                 SqlConnection sqlConnection = new SqlConnection(sqlConString);

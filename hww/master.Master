@@ -17,9 +17,11 @@
                 <li><a id="home" href="Home.aspx" class="navMenu" >בית</a></li>
                 <li><a id="regis" href="Register.aspx" class="navMenu">הרשמה</a></li>
                 <li><a id="login" href="Login.aspx" class="navMenu">התחברות</a></li>
+                <li><a id="userDetails" href="user%20info.aspx" class="navMenu">פרטי משתמש</a></li>
                 <li><a id="logout" href="Logout.aspx" class="navMenu">התנתקות</a></li>
                 <li><a id="stickFight" href="PhaserTest.aspx" class="navMenu">משחק - stickFight</a></li>
                 <li><a id="pong" href="pong.aspx" class="navMenu">משחק - pong</a></li>
+                <li><a id="tictactoe" href="TicTacToe.aspx" class="navMenu">משחק - TicTacToe</a></li>
             </ul>
         </nav>
     </header>
