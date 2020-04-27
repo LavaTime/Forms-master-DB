@@ -352,11 +352,19 @@ class gameOverScene extends Phaser.Scene {
     }
     preload() {
         this.load.image('gameOverBackground', 'Assets/gameOverBackground.jpg');
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
     create() {
-        this.add.image(0, 0, 'gameOverBackground');
         this.input.manager.enabled = true;
-
+        var add = this.add;
+        WebFont.load({
+            google: {
+                families: ['Freckle Face', 'Finger Paint', '"Press Start 2P"']
+            },
+            active: function () {
+                add.text(20, 35, 'game over! press left click to start over', { fontFamily: '"Press Start 2P"', fontSize: 30, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+            }
+        });
         this.input.once('pointerdown', function () {
 
             this.scene.start('menuScene');
