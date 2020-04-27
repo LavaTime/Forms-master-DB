@@ -9,7 +9,7 @@
         window.onscroll = function () { stickyness() };
         var navbar = document.getElementById("navbar");
         var sticky = navbar.offsetTop;
-
+        
         function stickyness() {
             if (window.pageYOffset >= sticky) {
                 navbar.classList.add("sticky");

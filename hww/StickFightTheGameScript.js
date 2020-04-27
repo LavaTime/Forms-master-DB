@@ -63,11 +63,23 @@ class menuScene extends Phaser.Scene {
         this.load.image('aboutNotSelected', 'Assets/aboutNotSelected (1).png');
         this.load.image('aboutSelected', 'Assets/aboutSelected (1).png');
         this.load.image('arrowKeys', 'Assets/arrowKey.png');
+        this.load.image('wasdKeys', 'Assets/wasdKey.png');
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
     create() {
         this.background = this.add.image(640, 300, 'background').setScale(2,1.5);
         this.startButton = this.add.image(640, 100, 'startSelected').setScale(1.55);
         this.aboutButton = this.add.image(640, 500, 'aboutNotSelected');
+        this.arrowKey = this.add.image(100, 20, 'arrowKeys');
+        var add = this.add;
+        WebFont.load({
+            google: {
+                families: ['Pixo']
+            },
+            active: function () {
+                add.text(20, 20, 'player 2 movement:', { fontFamily: 'Pixo', fontSize: 800, color: '#ffffff' });
+            }
+        });
         this.input.manager.enabled = true;
         this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -364,7 +376,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     audio: {

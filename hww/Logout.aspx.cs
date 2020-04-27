@@ -11,6 +11,11 @@ namespace hww
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["usernameData"] is null)
+            {
+                Session["CsErr"] = "שגיאה 401 נא התחבר קודם";
+                Response.Redirect("/ErrorPage.aspx");
+            }
             Session.Abandon();
         }
     }

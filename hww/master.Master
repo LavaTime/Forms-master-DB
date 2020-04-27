@@ -11,7 +11,7 @@
 </head>
 <body >
     <header>
-        <img id="logo" src="https://clipart4biz.com/images/css-transparent-css3-4.png" alt="logo" draggable="false"/>
+        <img id="logo" src="/Assets/HTMLCSSJS.jpeg" alt="logo" draggable="false"/>
         <nav>
             <ul id="navbar">
                 <li><a id="home" href="Home.aspx" class="navMenu" >בית</a></li>

@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <admins>
   <adminUser>
     <username>AMITKEREN9</username>
     <userPassword>CCaa123</userPassword>
     <firstName>עמית</firstName>
     <lastName>קרן</lastName>
-    <email>amitkeren999@gmail.com</email>
+    <email>amitkeren9999@gmail.com</email>
     <phoneNum>0507711345</phoneNum>
     <homeAddress>עודד 25 רמת חן רמת גן</homeAddress>
-    <Gender>זכר</Gender>
-    <dob>2004--09-09</dob>
+    <Gender>זכר,</Gender>
+    <dob>2004-09-09</dob>
     <age>15</age>
   </adminUser>
   <adminUser>
@@ -20,8 +20,8 @@
     <email>amitkeren99@gmail.com</email>
     <phoneNum>0507711345</phoneNum>
     <homeAddress>עודד 25 רמת חן רמת גן</homeAddress>
-    <Gender>זכר</Gender>
-    <dob>2004--09-09</dob>
+    <Gender>נקבה</Gender>
+    <dob>09-Sep-2004</dob>
     <age>15</age>
   </adminUser>
   <adminUser>
@@ -33,7 +33,7 @@
     <phoneNum>0507711345</phoneNum>
     <homeAddress>עודד 25 רמת חן רמת גן</homeAddress>
     <Gender>זכר</Gender>
-    <dob>2004--09-09</dob>
+    <dob>09-Sep-2004</dob>
     <age>15</age>
   </adminUser>
 </admins>

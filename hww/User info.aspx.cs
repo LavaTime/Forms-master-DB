@@ -96,6 +96,7 @@ namespace hww
                 sqlConnection.Close();
                 if (deleteLines != 0)
                 {
+                    Session.Abandon();
                     Response.Redirect("/Home.aspx");
                 }
             }

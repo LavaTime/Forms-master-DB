@@ -14,6 +14,10 @@ namespace hww
         protected string Table = "";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["isAdmin"] is null || Session["isAdmin"].ToString() != "True")
+            {
+                Response.Redirect("/Home.aspx");
+            }
             System.Diagnostics.Debug.WriteLine(Request.Form["submitFilter"]);
             if (Request.Form["submitFilter"] != null)
             {
@@ -106,7 +110,7 @@ namespace hww
             else
             {
                 //REMEBER TO REMOVE, USED FOR TESTING ONLY
-                if (Session["isAdmin"].ToString() == "True")
+                if (Session["isAdmin"] is null || Session["isAdmin"].ToString() == "True")
                 {
                     Table += "<table cellpadding = \"5\" id = \"AlluserInfoTable\"><tr><th class=\"cell\">שם משתמש</th><th class=\"cell\">סיסמה</th><th class=\"cell\">שם פרטי</th><th class=\"cell\">שם משפחה</th><th class=\"cell\">כתובת אימייל</th><th class=\"cell\">מספר טלפון</th><th class=\"cell\">כתובת</th><th class=\"cell\">מין</th><th class=\"cell\">תאריך לידה</th></tr>";
                     System.Diagnostics.Debug.WriteLine(Table);
@@ -149,17 +153,24 @@ namespace hww
                 string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
                 SqlConnection SqlConn = new SqlConnection(connStr);
                 string cmdStr;
+                if (deleteString[deleteString.Length - 1] == ',')
+                {
+                    deleteString = deleteString.Substring(0, deleteString.Length - 1);
+                }
                 string[] deleteArr = deleteString.Split(',');
-                System.Diagnostics.Debug.WriteLine(deleteArr);
+                System.Diagnostics.Debug.WriteLine("Starting to print debug info");
+                System.Diagnostics.Debug.WriteLine(deleteString);
+                System.Diagnostics.Debug.WriteLine(deleteArr.ToString());
                 foreach (string deleteUsername in deleteArr)
                 {
+                    System.Diagnostics.Debug.WriteLine(deleteUsername);
                     cmdStr = string.Format("DELETE FROM users WHERE username = N'{0}'", deleteUsername);
                     SqlCommand SqlCmd = new SqlCommand(cmdStr, SqlConn);
                     SqlConn.Open();
                     SqlCmd.ExecuteNonQuery();
                     SqlConn.Close();
-                    Response.Redirect("/Home.aspx");
                 }
+                Response.Redirect("/Home.aspx");
             }
         }
     }

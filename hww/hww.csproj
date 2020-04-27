@@ -74,6 +74,7 @@
     <Content Include="App_Data\mainDB_log.ldf">
       <DependentUpon>mainDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\HTMLCSSJS.jpeg" />
     <Content Include="Assets\aboutNotSelected %281%29.png" />
     <Content Include="Assets\aboutNotSelected.png" />
     <Content Include="Assets\aboutSelected %281%29.png" />
@@ -144,11 +145,13 @@
     <Content Include="Assets\startSelected.png" />
     <Content Include="Assets\StickManSprite.v1.png" />
     <Content Include="Assets\StickManSprite.v4 %281%29.png" />
+    <Content Include="Assets\wasdKey.png" />
     <Content Include="CanvasScript.js" />
     <Content Include="checkBoxScript.js" />
     <Content Include="checkLoginScript.js" />
     <Content Include="checkRegisScript.js" />
     <Content Include="EditUserData.aspx" />
+    <Content Include="EditUserDataScript.js" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="HtmlTest.html" />
@@ -168,6 +171,7 @@
     <Content Include="SQLQuery.sql" />
     <Content Include="styleSheets\regiStyleSheet.css" />
     <Content Include="styleSheets\updateInfoStyleSheet.css" />
+    <Content Include="TicTacToe.aspx" />
     <Content Include="User info.aspx" />
     <Content Include="styleSheets\UserInfoStyleSheet.css" />
     <Content Include="Web.config" />
@@ -243,6 +247,13 @@
     </Compile>
     <Compile Include="showAllUsers.aspx.designer.cs">
       <DependentUpon>showAllUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TicTacToe.aspx.cs">
+      <DependentUpon>TicTacToe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TicTacToe.aspx.designer.cs">
+      <DependentUpon>TicTacToe.aspx</DependentUpon>
     </Compile>
     <Compile Include="User info.aspx.cs">
       <DependentUpon>User info.aspx</DependentUpon>

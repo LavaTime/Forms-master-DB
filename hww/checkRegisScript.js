@@ -2,6 +2,7 @@
 const ABC = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ_1234567890"
 function checkAll() {
     /*
+     *   
     define an array that will contain all of the results of the check functions and then loop tru it and check if there are a false (errs)
     if there are no error return true
     if there are errors then return false and not refresh the page
@@ -28,10 +29,10 @@ function checkUsername() {
         document.getElementById("errUsername").innerHTML = "בבקשה הכנס שם משתמש";
         return false;
     }
-    
+
     for (var i = 0; i < username.length; i++) {
         // loop thru all the username and check if it's in the ABC var that contains all of the English Alphabet (Capitale or not) and _ and numbers
-        if (!ABC.includes(username[i])) {
+        if (!ABC.includes(username[i]) || username[i] == ' ') {
             document.getElementById("errUsername").innerHTML = "שם המשתמש אינו תקין";
             return false;
         }
@@ -59,14 +60,14 @@ function checkPassword() {
             return false;
         }
         // check if the current letter is capitale or not, and then if there is a capital and a non-capitale then return True for both of the variables
-        if (password[i] == password.toUpperCase())
+        if (password[i] == password[i].toUpperCase())
             includesCapital = true;
-        if (password[i] == passsword.toLowerCase())
+        if (password[i] == password[i].toLowerCase())
             includesLower = true;
     }
     if (!includesCapital && !includesLower) {
         // Check too see if both of the Bool var are true (meaing there are atleast 1 capitale and 1 non-capitale)
-        document.getElementById("e rrPassword").innerHTML = "הסיסמה לא מכילה לפחות אות אחת גדולה ואות אחת קטנה";
+        document.getElementById("errPassword").innerHTML = "הסיסמה לא מכילה לפחות אות אחת גדולה ואות אחת קטנה";
         return false;
     }
     document.getElementById("errPassword").innerHTML = "";
@@ -138,7 +139,7 @@ function checkEmail() {
             dotCount += 1;
         }
     }
-    if (atCount == 1 && dotCount == 1) {
+    if (atCount == 1 && dotCount >= 1) {
         document.getElementById("errEmail").innerHTML = "";
         return true;
     } else {
@@ -188,7 +189,7 @@ function checkBirthdate() {
 
 
 
-// ADD THE UPDATE AGE TESTING FOR THE MONTHS AND DATES
+// ADD THE UPDATE AGE TESTING FOR THE MONTHS AND DATES FIXED
 
 function updateAge() {
     /*
@@ -201,18 +202,12 @@ function updateAge() {
     var timeAlive = timeSinceEpoch - birthDate;
     var timeAliveConverted = new Date(timeAlive);
     var age = Math.abs(timeAliveConverted.getUTCFullYear() - 1970)
+    if (birthDate.getMonth > timeSinceEpoch.getMonth) {
+        age--;
+    } else if (birthDate.getMonth == timeSinceEpoch.getMonth) {
+        if (birthDate.getDate < timeSinceEpoch.getDate) {
+            age--;
+        }
+    }
     document.getElementById("ageInput").value = age;
 }
-
-
-
-
-
-
-/*
- * 
- * 
- * ADD A CUSTOM FIELD FOR THE UNIVERSAL CODE FOR THE TELEPHONE
- * 
- * 
- *  */

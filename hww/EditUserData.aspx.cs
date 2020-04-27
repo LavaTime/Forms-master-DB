@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace hww
 {
@@ -26,6 +27,11 @@ namespace hww
         protected string Rage;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["isAdmin"] is null)
+            {
+                Session["CsErr"] = "אנא התחבר לפני שתיגש לעמוד זה";
+                Response.Redirect("/ErrorPage.aspx");
+            }
             if (!(bool)Session["isAdmin"])
             {
                 string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\mainDB.mdf;Integrated Security=True";
@@ -80,7 +86,6 @@ namespace hww
                     }
                 }
             }
-            System.Diagnostics.Debug.WriteLine("Form[\"SubmitEdit\"] is " + Request.Form["SubmitEdit"]);
             if (Request.Form["SubmitEdit"] != null)
             {
                 string username = Rusername;
@@ -134,6 +139,8 @@ namespace hww
                         userNode.SetElementValue("Gender", gender);
                         userNode.SetElementValue("dob", dob);
                         userNode.SetElementValue("age", age);
+                        xmlFile.Save(MapPath("adminTable.xml"));
+                        Response.Redirect("/Home.aspx");
                     }
                 }
             }
