@@ -311,7 +311,7 @@ class gameScene extends Phaser.Scene {
         this.physics.add.collider(ammo, platforms);
         this.physics.add.collider(bombs, platforms);
         this.physics.add.collider(weapons, platforms);
-        this.physics.add.collider(shots, platforms);
+        this.physics.add.overlap(platforms, shots, overlap, null, this);
         // The colliders and overlaps that can be shortened using a for loop
         for (var i = 0; i < players.length; i++) {
             this.physics.add.collider(players[i].Container, platforms);
@@ -588,7 +588,7 @@ function overlap(player, obj) {
             player1.Handheld.setTexture('sniperRifle1');
             player1.Handheld.setScale(0.17);
         }
-    } else {
+    } else if (player == player2.Container) {
         if (obj.texture.key == 'ammoBox') {
             player2.ammo += 5;
             player2.AmmoText.setText('P2 ammo: ' + player2.ammo);
